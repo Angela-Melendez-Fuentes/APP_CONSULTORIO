@@ -1,14 +1,17 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Registrar Paciente') }}
-        </h2>
-    </x-slot>
+    
+    <header class="bg-blue-200 bg-blue-200 ">
+        <div class="bg-blue-200 max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-center bg-blue-200">
+                <img src="{{ asset('images/pacientesregistro.png') }}" alt="Registro" style="width: 283px; max-width: 100%;">
+            </div>
+        </div>
+    </header>
 
-    <div class="py-12 flex justify-center items-center bg-gray-100 dark:bg-gray-900">
+    <div class="py-12 flex justify-center items-center bg-blue-200 bg-blue-200">
         <div class="max-w-full w-full mx-auto sm:px-6 lg:px-8">
             <div class="relative overflow-x-auto">
-                <div class="container mx-auto p-8 bg-white text-gray-900 dark:bg-gray-800 dark:text-white rounded-lg shadow-lg">
+                <div class="container mx-auto p-8 bg-blue-200 text-gray-900 bg-blue-200 dark:text-white rounded-lg shadow-lg">
                     @if ($errors->any())
                         <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
                             <ul>
@@ -18,7 +21,7 @@
                             </ul>
                         </div>
                     @endif
-                    <form class="max-w-2xl mx-auto" method="POST" action="{{route('registro_paciente')}}">
+                    <form class="max-w-2xl mx-auto" method="POST" action="{{ route('registro_paciente') }}">
                         @csrf
                         <div class="mb-4">
                             <input type="text" name="nombre" id="nombre" class="block py-2.5 px-4 w-full text-sm text-gray-900 bg-gray-100 dark:bg-gray-700 dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 rounded-md border-gray-300" placeholder="Nombre(s)" required />
@@ -54,7 +57,7 @@
                                 </select>
                             </div>
                         </div>
-                        <button type="submit" class="text-blue-600 bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-md text-sm w-full sm:w-auto px-5 py-2.5 dark:bg-blue-700 dark:hover:bg-blue-800 dark:focus:ring-blue-800">
+                        <button type="submit" class="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-md text-sm w-full sm:w-auto px-5 py-2.5 dark:bg-blue-700 dark:hover:bg-blue-800 dark:focus:ring-blue-800">
                             Registrar
                         </button>                   
                      </form>

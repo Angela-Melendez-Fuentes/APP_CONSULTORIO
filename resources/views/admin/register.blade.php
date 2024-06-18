@@ -1,11 +1,14 @@
-@extends('layouts.registro-layout')
-
-@section('content')
-    <div class="font-[sans-serif] text-[#333] relative mb-1">
-        <div class="h-[270px] overflow-hidden flex justify-center items-center -mt-20">
-            <img src="{{ asset('images/registro.png') }}" alt="logo" class="inline-block" />
+<x-app-layout>
+    
+    <header class="bg-blue dark:bg-blue-200 shadow">
+        <div class="bg-blue-200 max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-center bg-blue-200">
+                <img src="{{ asset('images/pacientesregistro.png') }}" alt="Registro" style="width: 283px; max-width: 100%;">
+            </div>
         </div>
-        <div class="relative max-w-1xl mx-auto p-6 -mt-32">
+    </header>
+    
+        <div class="relative max-w-1xl mx-auto p-6 -mt-24">
             <div class="text-center mb-8">           
             </div>
             <form method="POST" action="{{ route('admin.register') }}" class="bg-white max-w-xl w-full mx-auto shadow-[0_2px_10px_-3px_rgba(6,81,237,0.3)] p-6 rounded-md">
@@ -58,4 +61,4 @@
             </form>
         </div>
     </div>
-@endsection
+</x-app-layout>
