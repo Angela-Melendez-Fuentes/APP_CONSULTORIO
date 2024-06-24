@@ -22,7 +22,7 @@
 
                     <!-- Sección de la imagen -->
                     <div class="md:h-full max-md:mt-10">
-                        <img src="images/login.png" class="w-full h-full object-contain" alt="Descripción de la imagen" />
+                        <img src="images/AngelaLogin.png" class="w-full h-full object-contain" alt="Descripción de la imagen" />
                     </div>
                 </div>
             </div>

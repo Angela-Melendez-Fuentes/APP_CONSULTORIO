@@ -13,6 +13,10 @@ export default {
         extend: {
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+                concert: ['Concert One', 'cursive'],
+            },
+            fontSize: {
+                'custom-size': '81px',
             },
         },
     },

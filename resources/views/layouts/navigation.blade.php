@@ -29,15 +29,26 @@
 
                         @elseif (auth()->user()->tipo === 'doctor')
                             <!-- Doctor Navigation Links -->
-                            <x-nav-link :href="route('paciente')" :active="request()->routeIs('paciente')">
-                                {{ __('Pacientes') }}
+                            <x-nav-link :href="route('agenda.index')" :active="request()->routeIs('agenda.index')">
+                                {{ __('Agenda') }}
                             </x-nav-link>
+                            
                             <x-nav-link :href="route('cita.index')" :active="request()->routeIs('citas.index')">
                                 {{ __('Citas') }}
                             </x-nav-link>
+
+                            <x-nav-link :href="route('paciente')" :active="request()->routeIs('paciente')">
+                                {{ __('Pacientes') }}
+                            </x-nav-link>
+                            
                             <x-nav-link :href="route('doctor.servicios')" :active="request()->routeIs('doctor.servicios')">
                                 {{ __('Servicios') }}
                             </x-nav-link>
+                            
+
+
+
+
 
                         @elseif (auth()->check() && auth()->user()->tipo === 'admin')
                             <!-- Doctor Navigation Links -->

@@ -9,7 +9,7 @@
 
         <div class="mb-12">
             <h3 class="text-3xl font-extrabold">Iniciar Sesión</h3>
-            <p class="text-sm mt-4">Transformando vidas con atención excepcional.</p>
+            <p class="text-sm mt-4">Cuidamos tu salud con corazón</p>
         </div>
 
         <!-- Email Address -->

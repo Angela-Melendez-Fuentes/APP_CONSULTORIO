@@ -1,11 +1,13 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-bold text-2xl text-blue-700 leading-tight">
-            {{ __('Pacientes') }}
-        </h2>
-    </x-slot>
+    <header class="bg-blue dark:bg-blue-200 shadow">
+        <div class="bg-blue-200 flex items-center justify-center">
+            <img src="{{ asset('images/pacientes_logo.png') }}" alt="Pacientes Logo" style="width: 283px; max-width: 100%;">
+        </div>
+     
+    </header>
+    
 
-    <div class="py-12 bg-gray-100">
+    <div class="py-12 bg-blue-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="relative overflow-x-auto shadow-md sm:rounded-lg bg-white p-6">
                 <div class="flex justify-between items-center mb-6">
@@ -62,10 +64,11 @@
                                             </form>
                                         </div>
                                         <div class="rounded-md overflow-hidden">
-                                            <button onclick="window.location.href='cita/agendar'" type="button" class="block text-center text-gray-600 hover:text-gray-900 px-3 py-2">
+                                            <a href="{{ route('cita.agendar') }}" class="block text-center text-gray-600 hover:text-gray-900 px-3 py-2">
                                                 <i class="fas fa-calendar-plus"></i>
-                                            </button>
+                                            </a>
                                         </div>
+                                        
                                     </td>
                                 </tr>
                             @endforeach

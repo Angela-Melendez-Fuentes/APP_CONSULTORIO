@@ -15,6 +15,12 @@ class ServicioController extends Controller
     }
 
     // Método para mostrar el formulario de creación de servicio
+    public function create()
+    {
+        return view('servicios.create');
+    }
+
+    // Método para almacenar un nuevo servicio
     public function store(Request $request)
     {
         // Validar los datos del formulario

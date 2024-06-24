@@ -4,12 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Cita;
-use App\Models\Paciente; // Asegúrate de tener esta línea para importar el modelo Paciente
+use App\Models\Paciente;
 use App\Models\User;
-use App\Models\Pago;
 use Illuminate\Support\Facades\DB;
 
-class CitaController extends Controller
+
+class AgendaController extends Controller
 {
     public function create()
     {
@@ -47,8 +47,8 @@ class CitaController extends Controller
     public function agendar_cita()
     {
         if (auth()->user()->tipo === 'secretaria' || auth()->user()->tipo === 'doctor') {
-            $citas = Cita::orderByDesc('created_at')->get(); // Obtener citas ordenadas por fecha de creación descendente
-            return view('cita.index', compact('citas'));
+            $citas = Cita::orderByDesc('created_at')->get();
+            return view('agenda.index', compact('citas'));
         }
 
         return redirect()->route('dashboard')->with('error', 'No tiene permisos para acceder a esta función.');
@@ -56,7 +56,7 @@ class CitaController extends Controller
 
     public function index()
     {
-        $citas = Cita::orderByDesc('created_at')->get(); // Obtener citas ordenadas por fecha de creación descendente
-        return view('cita.index', compact('citas'));
+        $citas = Cita::orderByDesc('created_at')->get(); 
+        return view('agenda.index', compact('citas'));
     }
 }

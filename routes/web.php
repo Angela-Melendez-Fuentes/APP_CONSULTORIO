@@ -7,19 +7,20 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ServicioController;
 use App\Http\Controllers\UsuarioController;
+use App\Http\Controllers\AgendaController;
+
+
+use App\Http\Controllers\RegisteredUserController;
+
+Route::get('/agenda', [AgendaController::class, 'index'])->name('agenda.index');
 
 
 
 
 Route::get('/', [MenuController::class, 'welcome'])->middleware(['auth', 'verified'])->name('welcome');
 
-
-use App\Http\Controllers\RegisteredUserController;
-
-
 Route::get('/admin/register', [RegisteredUserController::class, 'create'])->name('admin.register');
 Route::post('/admin/register', [RegisteredUserController::class, 'store'])->name('admin.register');
-
 
 
 

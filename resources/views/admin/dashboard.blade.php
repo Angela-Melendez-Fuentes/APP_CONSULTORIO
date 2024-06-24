@@ -1,18 +1,17 @@
-@extends('layouts.app')
+<x-app-layout>
+    <header class="bg-blue-200">
+        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-center">
+                <img src="{{ asset('images/bienvenido.png') }}" alt="Registro" style="width: 300px; max-width: 100%;">
+            </div>
+        </div>
+    </header>
 
-@section('content')
-<div class="container mx-auto">
-    <h2 class="font-bold text-2xl text-blue-700 leading-tight mb-4">
-        {{ __('Panel de Administración') }}
-    </h2>
-
-    <div class="flex space-x-4">
-        <a href="{{ route('register') }}" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-            {{ __('Registro de Personal') }}
-        </a>
-        <a href="{{ route('pacientes.registrar_pacientes') }}" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
-            {{ __('Registro de Pacientes') }}
-        </a>
+    <div class="flex justify-center items-center h-screen">
+        <div class="mt"> 
+            <a href="{{ route('dashboard') }}">
+                <img src="{{ asset('images/FondoAdmin.png') }}" alt="Logo" class="mx-auto max-w-full h-auto" style="max-width: 1000px;">
+            </a>
+        </div>
     </div>
-</div>
-@endsection
+</x-app-layout>
