@@ -32,7 +32,7 @@ class Kernel extends HttpKernel
     protected $routeMiddleware = [
         // Otros middleware
 
-        // Aquí registramos el middleware de admin
+        // Middleware de admin
         'admin' => \App\Http\Middleware\AdminMiddleware::class,
     ];
 }

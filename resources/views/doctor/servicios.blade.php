@@ -1,11 +1,13 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-bold text-2xl text-blue-700 leading-tight">
-            {{ __('Servicios') }}
-        </h2>
-    </x-slot>
+    <header class="bg-blue dark:bg-blue-200 shadow">
+        <div class="bg-blue-200 flex items-center justify-center">
+            <img src="{{ asset('images/Servicio.png') }}" alt="Pacientes Logo" style="width: 283px; max-width: 100%;">
+        </div>
+     
+    </header>
+    
 
-    <div class="py-12 bg-gray-100">
+    <div class="py-12 bg-blue-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="relative overflow-x-auto shadow-md sm:rounded-lg bg-white p-6">
                 <div class="flex justify-between items-center mb-6">

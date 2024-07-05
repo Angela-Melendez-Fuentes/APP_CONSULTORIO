@@ -52,6 +52,7 @@
                     </div>
                 </div>
 
+                
                 <div class="mt-8 flex items-center justify-between">
                     <a href="{{ route('welcome') }}" class="text-blue-600 hover:underline">{{ __('Volver') }}</a>
                     <button type="submit" class="min-w-[150px] py-3 px-4 text-sm font-semibold rounded text-white" style="background-color: #12229d; hover:bg-[#0f1b81]; focus:outline-none;">

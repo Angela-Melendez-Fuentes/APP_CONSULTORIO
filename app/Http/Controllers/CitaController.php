@@ -1,22 +1,24 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Cita;
-use App\Models\Paciente; // Asegúrate de tener esta línea para importar el modelo Paciente
+use App\Models\Paciente; 
 use App\Models\User;
-use App\Models\Pago;
-use Illuminate\Support\Facades\DB;
 
 class CitaController extends Controller
 {
-    public function create()
+    public function create(Request $request)
     {
+        $date = $request->query('date'); 
         $pacientes = Paciente::all();
         $doctores = User::where('tipo', 'doctor')->get();
 
-        return view('cita.agendar', ['pacientes' => $pacientes, 'doctores' => $doctores]);
+        return view('cita.agendar', [
+            'pacientes' => $pacientes,
+            'doctores' => $doctores,
+            'date' => $date // Pasar la fecha a la vista
+        ]);
     }
 
     public function store(Request $request)
@@ -30,7 +32,7 @@ class CitaController extends Controller
             'monto' => 'required|numeric|min:0', 
         ]);
     
-        $cita = Cita::create([
+        Cita::create([
             'paciente_id' => $request->paciente_id,
             'doctor_id' => $request->doctor_id,
             'fecha' => $request->fecha,
@@ -41,13 +43,13 @@ class CitaController extends Controller
             'pagada' => false,
         ]);
 
-
         return redirect()->route('cita.agendar')->with('success', 'Cita agendada exitosamente.');
     }
+
     public function agendar_cita()
     {
         if (auth()->user()->tipo === 'secretaria' || auth()->user()->tipo === 'doctor') {
-            $citas = Cita::orderByDesc('created_at')->get(); // Obtener citas ordenadas por fecha de creación descendente
+            $citas = Cita::orderByDesc('created_at')->get(); 
             return view('cita.index', compact('citas'));
         }
 
@@ -56,7 +58,13 @@ class CitaController extends Controller
 
     public function index()
     {
-        $citas = Cita::orderByDesc('created_at')->get(); // Obtener citas ordenadas por fecha de creación descendente
+        $citas = Cita::orderByDesc('created_at')->get(); 
         return view('cita.index', compact('citas'));
     }
+
+    public function horasOcupadas($fecha) {
+        $citas = Cita::where('fecha', $fecha)->pluck('hora')->toArray();
+        return response()->json($citas);
+    }
+    
 }

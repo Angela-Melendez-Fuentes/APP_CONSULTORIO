@@ -27,6 +27,10 @@
                                 Falta hacere pagos, ahorita lo hago lol !
                             </x-nav-link>
 
+
+
+
+                            
                         @elseif (auth()->user()->tipo === 'doctor')
                             <!-- Doctor Navigation Links -->
                             <x-nav-link :href="route('agenda.index')" :active="request()->routeIs('agenda.index')">
@@ -47,11 +51,8 @@
                             
 
 
-
-
-
                         @elseif (auth()->check() && auth()->user()->tipo === 'admin')
-                            <!-- Doctor Navigation Links -->
+                            <!-- Admin Navigation Links -->
                             <x-nav-link :href="route('paciente')" :active="request()->routeIs('paciente')">
                                 {{ __('Pacientes') }}
                             </x-nav-link>

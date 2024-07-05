@@ -40,10 +40,10 @@
                             <td class="px-6 py-4">{{ $usuario->email }}</td>
                             <td class="px-6 py-4">{{ $usuario->tipo }}</td>
                             <td class="px-6 py-4 flex space-x-2">
-                                <!-- Botón para editar usuario -->
+                                <!-- Editar usuario -->
                                 <a href="{{ route('usuarios.edit', $usuario->id) }}" class="text-indigo-600 hover:text-indigo-900 px-3 py-2">Editar</a>
                             
-                                <!-- Formulario para eliminar usuario -->
+                                <!-- Eliminar usuario -->
                                 <form action="{{ route('usuarios.destroy', $usuario->id) }}" method="POST" onsubmit="return confirm('¿Estás seguro de que quieres eliminar este usuario?');" class="inline-block">
                                     @csrf
                                     @method('DELETE')
