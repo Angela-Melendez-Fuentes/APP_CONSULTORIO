@@ -5,6 +5,8 @@ use Illuminate\Http\Request;
 use App\Models\Cita;
 use App\Models\Paciente; 
 use App\Models\User;
+use App\Models\Medicamento;
+use App\Models\Consulta;
 
 class CitaController extends Controller
 {
@@ -17,7 +19,7 @@ class CitaController extends Controller
         return view('cita.agendar', [
             'pacientes' => $pacientes,
             'doctores' => $doctores,
-            'date' => $date // Pasar la fecha a la vista
+            'date' => $date
         ]);
     }
 
@@ -31,7 +33,16 @@ class CitaController extends Controller
             'motivo' => 'required|string', 
             'monto' => 'required|numeric|min:0', 
         ]);
-    
+
+        $citaExistente = Cita::where('doctor_id', $request->doctor_id)
+            ->where('fecha', $request->fecha)
+            ->where('hora', $request->hora)
+            ->exists();
+
+        if ($citaExistente) {
+            return redirect()->back()->withErrors(['hora' => 'Esta hora ya está ocupada para este doctor.']);
+        }
+
         Cita::create([
             'paciente_id' => $request->paciente_id,
             'doctor_id' => $request->doctor_id,
@@ -54,7 +65,7 @@ class CitaController extends Controller
         }
 
         return redirect()->route('dashboard')->with('error', 'No tiene permisos para acceder a esta función.');
-    }   
+    }
 
     public function index()
     {
@@ -62,9 +73,51 @@ class CitaController extends Controller
         return view('cita.index', compact('citas'));
     }
 
-    public function horasOcupadas($fecha) {
-        $citas = Cita::where('fecha', $fecha)->pluck('hora')->toArray();
+    public function horasOcupadas($fecha, $doctor_id)
+    {
+        $citas = Cita::where('fecha', $fecha)
+            ->where('doctor_id', $doctor_id)
+            ->pluck('hora')
+            ->toArray();
         return response()->json($citas);
     }
-    
+
+    public function consulta(Request $request, $id)
+    {
+        $cita = Cita::findOrFail($id);
+        $medicamentos = Medicamento::all();
+
+        if ($request->isMethod('post')) {
+            $cita->update($request->all());
+            return redirect()->route('cita.consulta', ['id' => $id])->with('success', 'Signos vitales actualizados');
+        }
+
+        return view('cita.consulta', compact('cita', 'medicamentos'));
+    }
+
+    public function storeConsulta(Request $request, $citaId)
+    {
+        $request->validate([
+            'receta' => 'required',
+            'medicamentos' => 'nullable|array',
+            'cantidades' => 'nullable|array',
+            'frecuencias' => 'nullable|array',
+        ]);
+
+        $consulta = Consulta::create([
+            'cita_id' => $citaId,
+            'receta' => $request->receta,
+        ]);
+
+        if ($request->medicamentos && $request->cantidades && $request->frecuencias) {
+            foreach ($request->medicamentos as $index => $medicamentoId) {
+                $consulta->medicamentos()->attach($medicamentoId, [
+                    'cantidad' => $request->cantidades[$index],
+                    'frecuencia' => $request->frecuencias[$index],
+                ]);
+            }
+        }
+
+        return redirect()->route('cita.consulta', $citaId)->with('success', 'Consulta guardada exitosamente.');
+    }
 }

@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -15,6 +14,7 @@ class User extends Authenticatable
     {
         return $this->tipo === 'admin';
     }
+
     /**
      * The attributes that are mass assignable.
      *
@@ -24,7 +24,11 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'tipo'
+        'tipo',
+        'telefono',
+        'rfc',
+        'cedula_profesional',
+        'especialidad'
     ];
 
     /**
@@ -49,5 +53,4 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-    
 }

@@ -16,10 +16,13 @@
                 <div class="w-2/3">
                     <!-- Contenedor para la fecha seleccionada -->
                     <div id="selected-date-container" class="mb-4 text-center text-blue-800 text-lg font-bold"></div>
+                    <!-- Contenedor para horas disponibles -->
+                    <div id="available-hours-container" class="mb-4 flex flex-wrap justify-center gap-2"></div>
                     <!-- Tabla de citas -->
                     <table id="appointments-table" class="w-full table-auto">
                         <thead>
                             <tr class="bg-blue-200 text-blue-800">
+                                <th class="px-4 py-2">DISPONIBLE</th>
                                 <th class="px-4 py-2">HORA</th>
                                 <th class="px-4 py-2">DÍA</th>
                                 <th class="px-4 py-2">NOMBRE</th>
@@ -38,6 +41,7 @@
                                 @foreach ($citas as $cita)
                                     @if ($cita->doctor_id === auth()->id())
                                         <tr class="appointment-row bg-blue-100 border-b border-blue-200" data-date="{{ $cita->fecha }}">
+                                            <td class="px-4 py-2">{{ $cita->hora }}</td>
                                             <td class="px-4 py-2">{{ $cita->hora }}</td>
                                             <td class="px-4 py-2">{{ $cita->fecha }}</td>
                                             <td class="px-4 py-2">{{ $cita->paciente->nombre }} {{ $cita->paciente->apellido_p }} {{ $cita->paciente->apellido_m }}</td>
@@ -134,11 +138,26 @@
         .calendar-grid .has-appointments {
             background-color: #d6bcfa; 
         }
+        .hour-block {
+            background-color: #4299e1;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .hour-block:hover {
+            background-color: #3182ce;
+        }
+        .hour-block.disabled {
+            background-color: #e2e8f0;
+            cursor: not-allowed;
+        }
     </style>
 
     <script>
     document.addEventListener('DOMContentLoaded', function() {
         const calendarContainer = document.getElementById('calendar-container');
+        const availableHoursContainer = document.getElementById('available-hours-container');
         const monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
         const daysOfWeek = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
         const today = new Date(); // Fecha actual
@@ -147,6 +166,7 @@
         let currentYear = today.getFullYear();
         let selectedDate = null; // Variable para almacenar la fecha seleccionada
         const appointments = @json($citas);
+        const availableHours = ["09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00"];
 
         function generateCalendar(month, year) {
             calendarContainer.innerHTML = '';
@@ -180,23 +200,24 @@
                 generateCalendar(currentMonth, currentYear);
             });
 
-            const monthYear = document.createElement('div');
-            monthYear.innerText = `${monthNames[month]} ${year}`;
+            const title = document.createElement('div');
+            title.innerText = `${monthNames[month]} ${year}`;
 
             header.appendChild(prevButton);
-            header.appendChild(monthYear);
+            header.appendChild(title);
             header.appendChild(nextButton);
+
             calendarContainer.appendChild(header);
 
             const calendarGrid = document.createElement('div');
             calendarGrid.classList.add('calendar-grid');
 
-            daysOfWeek.forEach(day => {
-                const dayElement = document.createElement('div');
-                dayElement.innerText = day;
-                dayElement.classList.add('header');
-                calendarGrid.appendChild(dayElement);
-            });
+            for (let i = 0; i < daysOfWeek.length; i++) {
+                const dayHeader = document.createElement('div');
+                dayHeader.innerText = daysOfWeek[i];
+                dayHeader.classList.add('header');
+                calendarGrid.appendChild(dayHeader);
+            }
 
             const firstDay = new Date(year, month, 1).getDay();
             const daysInMonth = new Date(year, month + 1, 0).getDate();
@@ -232,6 +253,7 @@
                             selectedDate = dateStr;
                             generateCalendar(currentMonth, currentYear);
                             filterAppointmentsByDate(dateStr);
+                            showAvailableHours(dateStr);
                             showAgendarButton(dateStr);
                         }
                     });
@@ -250,6 +272,22 @@
                     row.style.display = '';
                 } else {
                     row.style.display = 'none';
+                }
+            });
+        }
+
+        function showAvailableHours(date) {
+            availableHoursContainer.innerHTML = '';
+            const takenHours = appointments
+                .filter(appointment => appointment.fecha === date)
+                .map(appointment => appointment.hora);
+
+            availableHours.forEach(hour => {
+                if (!takenHours.includes(hour)) {
+                    const hourBlock = document.createElement('div');
+                    hourBlock.innerText = hour;
+                    hourBlock.classList.add('hour-block');
+                    availableHoursContainer.appendChild(hourBlock);
                 }
             });
         }

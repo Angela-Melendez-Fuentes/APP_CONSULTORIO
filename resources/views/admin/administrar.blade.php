@@ -13,49 +13,54 @@
                         <form method="GET" action="{{ route('admin.administrar') }}" class="flex">
                             <input type="text" name="search" placeholder="Buscar usuario" class="bg-gray-100 text-sm px-4 py-2.5 rounded-md outline-blue-500" value="{{ request('search') }}">
                             <button type="submit" class="ml-2 px-4 py-2 bg-blue-600 text-white rounded-md">Buscar</button>
-                        </form>                    </div>
+                        </form>
+                    </div>
                 </div>
 
                 @if ($usuarios->isEmpty())
-                <div class="text-center text-gray-600 py-4">
-                    No hay usuarios registrados.
-                </div>
+                    <div class="text-center text-gray-600 py-4">
+                        No hay usuarios registrados.
+                    </div>
                 @else
-                <table class="w-full text-sm text-center text-gray-600">
-                    <thead class="text-xs text-gray-800 uppercase bg-blue-600">
-                        <tr>
-                            <th scope="col" class="px-6 py-3 font-bold">Nombre</th>
-                            <th scope="col" class="px-6 py-3 font-bold">Correo</th>
-                            <th scope="col" class="px-6 py-3 font-bold">Tipo</th>
-                            <th scope="col" class="px-6 py-3 font-bold">Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($usuarios as $usuario)
-                        @if ($usuario->tipo !== 'admin') <!-- Verificar si el tipo no es admin -->
-                        <tr class="bg-white border-b hover:bg-gray-50">
-                            <td class="px-6 py-4 font-medium text-gray-900">
-                                {{ $usuario->name }}
-                            </td>
-                            <td class="px-6 py-4">{{ $usuario->email }}</td>
-                            <td class="px-6 py-4">{{ $usuario->tipo }}</td>
-                            <td class="px-6 py-4 flex space-x-2">
-                                <!-- Editar usuario -->
-                                <a href="{{ route('usuarios.edit', $usuario->id) }}" class="text-indigo-600 hover:text-indigo-900 px-3 py-2">Editar</a>
-                            
-                                <!-- Eliminar usuario -->
-                                <form action="{{ route('usuarios.destroy', $usuario->id) }}" method="POST" onsubmit="return confirm('¿Estás seguro de que quieres eliminar este usuario?');" class="inline-block">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="text-red-600 hover:text-red-900 px-3 py-2">Eliminar</button>
-                                </form>
-                            </td>
-                            
-                        </tr>
-                        @endif
-                        @endforeach
-                    </tbody>
-                </table>
+                    <table class="w-full text-sm text-center text-gray-600">
+                        <thead class="text-xs text-gray-800 uppercase bg-blue-600">
+                            <tr>
+                                <th scope="col" class="px-6 py-3 font-bold">Nombre</th>
+                                <th scope="col" class="px-6 py-3 font-bold">Correo</th>
+                                <th scope="col" class="px-6 py-3 font-bold">Tipo</th>
+                                <th scope="col" class="px-6 py-3 font-bold">Teléfono</th>
+                                <th scope="col" class="px-6 py-3 font-bold">RFC</th>
+                                <th scope="col" class="px-6 py-3 font-bold">Cédula Profesional</th>
+                                <th scope="col" class="px-6 py-3 font-bold">Especialidad</th>
+                                <th scope="col" class="px-6 py-3 font-bold">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($usuarios as $usuario)
+                                @if ($usuario->tipo !== 'admin')
+                                    <tr class="bg-white border-b hover:bg-gray-50">
+                                        <td class="px-6 py-4 font-medium text-gray-900">{{ $usuario->name }}</td>
+                                        <td class="px-6 py-4">{{ $usuario->email }}</td>
+                                        <td class="px-6 py-4">{{ $usuario->tipo }}</td>
+                                        <td class="px-6 py-4">{{ $usuario->telefono }}</td>
+                                        <td class="px-6 py-4">{{ $usuario->rfc }}</td>
+                                        <td class="px-6 py-4">{{ $usuario->cedula_profesional }}</td>
+                                        <td class="px-6 py-4">{{ $usuario->especialidad }}</td>
+                                        <td class="px-6 py-4 flex space-x-2 justify-center">
+                                            <!-- Editar usuario -->
+                                            <a href="{{ route('usuarios.edit', $usuario->id) }}" class="text-indigo-600 hover:text-indigo-900 px-3 py-2">Editar</a>
+                                            <!-- Eliminar usuario -->
+                                            <form action="{{ route('usuarios.destroy', $usuario->id) }}" method="POST" onsubmit="return confirm('¿Estás seguro de que quieres eliminar este usuario?');" class="inline-block">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="text-red-600 hover:text-red-900 px-3 py-2">Eliminar</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @endif
+                            @endforeach
+                        </tbody>
+                    </table>
                 @endif
             </div>
         </div>

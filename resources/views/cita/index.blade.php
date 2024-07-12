@@ -14,7 +14,7 @@
                             <th class="px-4 py-2">FECHA</th>
                             <th class="px-4 py-2">NOMBRE</th>
                             <th class="px-4 py-2">CUENTA</th>
-                            <th class="px-4 py-2">FACTURA</th>
+                            <th class="px-4 py-2">EXPEDIENTE</th>
                             <th class="px-4 py-2">PAGÓ</th>
                             <th class="px-4 py-2">ESTADO</th>
                         </tr>

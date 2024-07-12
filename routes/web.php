@@ -8,8 +8,27 @@ use App\Http\Controllers\ServicioController;
 use App\Http\Controllers\UsuarioController;
 use App\Http\Controllers\AgendaController;
 use App\Http\Controllers\RegisteredUserController;
+use App\Http\Controllers\MedicamentoController;
+use App\Http\Controllers\ConsultaController;
+
+Route::post('/cita/{id}/consulta', [ConsultaController::class, 'store'])->name('cita.consulta');
+
+
+Route::get('/medicamentos', [MedicamentoController::class, 'index'])->name('medicamentos.index');
+Route::get('/cita/consulta', [MedicamentoController::class, 'mostrarFormulario'])->name('cita.consulta');
+Route::get('/mostrar-formulario', [MedicamentoController::class, 'mostrarFormulario'])->name('mostrar.formulario');
+Route::post('/medicamentos', [MedicamentoController::class, 'store'])->name('medicamentos.store');
+
+
+
+Route::match(['get', 'post'], 'cita/consulta/{id}', [CitaController::class, 'consulta'])->name('cita.consulta');
+
+
+
 
 Route::get('/agenda', [AgendaController::class, 'index'])->name('agenda.index');
+Route::get('/horas-ocupadas/{fecha}/{doctor_id}', [CitaController::class, 'horasOcupadas']);
+
 
 
 Route::get('/admin/register', [RegisteredUserController::class, 'create'])->name('admin.register');

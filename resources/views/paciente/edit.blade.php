@@ -18,7 +18,7 @@
                     </div>
                 @endif
 
-                <form action="{{ route('paciente.update', $paciente->id) }}" method="POST" class="space-y-6">
+                <form action="{{ route('paciente.update', $paciente->id) }}" method="POST" class="space-y-6" onsubmit="return validateForm()">
                     @csrf
                     @method('PUT')
 
@@ -39,7 +39,7 @@
 
                     <div class="mb-4">
                         <label for="age" class="block text-gray-700 font-medium mb-2">Edad:</label>
-                        <input type="text" name="age" id="age" value="{{ $paciente->age }}" class="w-full p-2 border border-gray-300 rounded-lg focus:ring focus:ring-blue-200 focus:border-blue-500">
+                        <input type="number" name="age" id="age" value="{{ $paciente->age }}" class="w-full p-2 border border-gray-300 rounded-lg focus:ring focus:ring-blue-200 focus:border-blue-500">
                     </div>
 
                     <div class="mb-4">
@@ -54,7 +54,7 @@
 
                     <div class="mb-4">
                         <label for="fecha_nacimiento" class="block text-gray-700 font-medium mb-2">Fecha de Nacimiento:</label>
-                        <input type="date" name="fecha_nacimiento" id="fecha_nacimiento" value="{{ $paciente->fecha_nacimiento }}" class="w-full p-2 border border-gray-300 rounded-lg focus:ring focus:ring-blue-200 focus:border-blue-500">
+                        <input type="date" name="fecha_nacimiento" id="fecha_nacimiento" value="{{ $paciente->fecha_nacimiento }}" class="w-full p-2 border border-gray-300 rounded-lg focus:ring focus:ring-blue-200 focus:border-blue-500" onchange="calculateAgeAndValidate()">
                     </div>
 
                     <div class="mb-4">
@@ -72,4 +72,36 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function calculateAge(birthday) {
+            const today = new Date();
+            const birthDate = new Date(birthday);
+            let age = today.getFullYear() - birthDate.getFullYear();
+            const monthDifference = today.getMonth() - birthDate.getMonth();
+            if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDate.getDate())) {
+                age--;
+            }
+            return age;
+        }
+
+        function calculateAgeAndValidate() {
+            const birthDate = document.getElementById('fecha_nacimiento').value;
+            const ageField = document.getElementById('age');
+            const calculatedAge = calculateAge(birthDate);
+            ageField.value = calculatedAge;
+        }
+
+        function validateForm() {
+            const birthDate = document.getElementById('fecha_nacimiento').value;
+            const ageField = document.getElementById('age').value;
+            const calculatedAge = calculateAge(birthDate);
+
+            if (parseInt(ageField) !== calculatedAge) {
+                alert('La edad no coincide con la fecha de nacimiento.');
+                return false;
+            }
+            return true;
+        }
+    </script>
 </x-app-layout>

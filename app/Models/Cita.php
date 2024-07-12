@@ -18,7 +18,14 @@ class Cita extends Model
         'hora',
         'motivo',
         'observaciones',
+        'monto',
         'pagada',
+        'talla',
+        'temperatura',
+        'saturacion_oxigeno',
+        'frecuencia_cardiaca',
+        'peso',
+        'tension_arterial',
     ];
     
     // Relación con el paciente

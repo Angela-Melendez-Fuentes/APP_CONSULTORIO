@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class UsuarioController extends Controller
 {
@@ -33,6 +34,10 @@ class UsuarioController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,' . $id,
             'tipo' => 'required|string|max:255',
+            'telefono' => 'required|string|max:15',
+            'rfc' => 'required|string|max:13',
+            'cedula_profesional' => 'nullable|string|max:20',
+            'especialidad' => 'nullable|string|max:100',
         ]);
 
         $usuario = User::findOrFail($id);
@@ -40,6 +45,10 @@ class UsuarioController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'tipo' => $request->tipo,
+            'telefono' => $request->telefono,
+            'rfc' => $request->rfc,
+            'cedula_profesional' => $request->cedula_profesional,
+            'especialidad' => $request->especialidad,
         ]);
 
         return redirect()->route('admin.administrar')->with('success', 'Usuario actualizado correctamente.');
