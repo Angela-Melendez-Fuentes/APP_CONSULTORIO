@@ -26,6 +26,8 @@ class Cita extends Model
         'frecuencia_cardiaca',
         'peso',
         'tension_arterial',
+        'receta',
+        'alergias',
     ];
     
     // Relación con el paciente

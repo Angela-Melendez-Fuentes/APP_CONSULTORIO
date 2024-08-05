@@ -48,6 +48,10 @@
                             <x-nav-link :href="route('doctor.servicios')" :active="request()->routeIs('doctor.servicios')">
                                 {{ __('Servicios') }}
                             </x-nav-link>
+
+                            <x-nav-link :href="route('medicamentos.index')" :active="request()->routeIs('medicamentos.index')">
+                                {{ __('Productos') }}
+                            </x-nav-link>
                             
 
 

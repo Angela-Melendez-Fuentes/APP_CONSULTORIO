@@ -7,11 +7,12 @@
 
     <div class="py-12 bg-blue-100 min-h-screen">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-md sm:rounded-lg p-6">
+            <div class="bg-white dark:bg-gray-700 overflow-hidden shadow-md sm:rounded-lg p-6">
                 <table class="w-full table-auto">
                     <thead>
                         <tr class="bg-blue-200 text-blue-800">
                             <th class="px-4 py-2">FECHA</th>
+                            <th class="px-4 py-2">HORA</th>
                             <th class="px-4 py-2">NOMBRE</th>
                             <th class="px-4 py-2">CUENTA</th>
                             <th class="px-4 py-2">EXPEDIENTE</th>
@@ -27,8 +28,10 @@
                         @else
                             @foreach ($citas as $cita)
                                 @if ($cita->doctor_id === auth()->id())
-                                    <tr class="bg-blue-100 border-b border-blue-200">
-                                        <td class="px-4 py-2">{{ $cita->fecha }}<br>{{ $cita->hora }}</td>
+                                    <tr class="bg-blue-100 border-b border-blue-200 dark:text-white">
+                                        <td class="px-4 py-2">{{ $cita->fecha }}</td>
+                                        <td class="px-4 py-2">{{ $cita->hora }}</td>
+                                                                               
                                         <td class="px-4 py-2">{{ $cita->paciente->nombre }} {{ $cita->paciente->apellido_p }} {{ $cita->paciente->apellido_m }}</td>
                                         <td class="px-4 py-2 text-center">
                                             ${{ $cita->monto }}
@@ -45,7 +48,8 @@
                                         </td>
                                         <td class="px-4 py-2 text-center">
                                             Sin terminar<br>
-                                            <a href="#" class="text-blue-600 hover:text-blue-400">Ver cita</a><br>
+                                            <a href="{{ route('cita.consulta', $cita->id) }}" class="text-blue-600 hover:text-blue-400">Ir a cita</a>
+                                            <br>
                                             CITA #{{ $cita->id }}
                                         </td>
                                     </tr>
@@ -62,7 +66,7 @@
         function toggleCheck(id) {
             var element = document.getElementById(id);
             if (element.innerHTML === '▢') {
-                element.innerHTML = '✔';
+                element.innerHTML = '✅';
                 element.classList.remove('text-red-600');
                 element.classList.add('text-green-600');
             } else {

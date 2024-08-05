@@ -13,6 +13,9 @@ use App\Http\Controllers\ConsultaController;
 
 Route::post('/cita/{id}/consulta', [ConsultaController::class, 'store'])->name('cita.consulta');
 
+Route::post('/cita/{id}/consulta', [CitaController::class, 'guardarConsulta'])->name('cita.consulta');
+
+
 
 Route::get('/medicamentos', [MedicamentoController::class, 'index'])->name('medicamentos.index');
 Route::get('/cita/consulta', [MedicamentoController::class, 'mostrarFormulario'])->name('cita.consulta');

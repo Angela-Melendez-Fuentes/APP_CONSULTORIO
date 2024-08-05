@@ -1,16 +1,16 @@
 <x-app-layout>
     <header class="bg-blue dark:bg-blue-200 shadow">
-        <div class="bg-blue-200 flex items-center justify-center">
+        <div class="bg-blue-200 dark:bg-blue-200 flex items-center justify-center">
             <img src="{{ asset('images/agenda.png') }}" alt="Agenda Logo" class="w-10 h-10">
         </div>
     </header>
 
     <div class="py-12 bg-blue-100 min-h-screen flex">
         <div class="w-4/5 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-md sm:rounded-lg p-6 flex">
+            <div class="bg-white dark:bg-gray-700 overflow-hidden shadow-md sm:rounded-lg p-6 flex">
                 <div class="w-1/3 pr-6" style="margin-right: 2cm;">
                     <!-- Contenedor del calendario -->
-                    <div id="calendar-container" class="mb-6 bg-white p-4 shadow-md rounded-lg" style="height: 500px;"></div>
+                    <div id="calendar-container" class="mb-6 bg-white dark:bg-gray-600 p-4 shadow-md rounded-lg" style="height: 400px; width: 300px;"></div>
                     <div id="agendar-container" class="text-center mt-4"></div>
                 </div>
                 <div class="w-2/3">
@@ -19,47 +19,48 @@
                     <!-- Tabla de citas -->
                     <table id="appointments-table" class="w-full table-auto">
                         <thead>
-                            <tr class="bg-blue-200 text-blue-800">
+                            <tr class="bg-blue-200 text-blue-800 dark:text-black">
                                 <th class="px-4 py-2">HORA</th>
                                 <th class="px-4 py-2">DÍA</th>
                                 <th class="px-4 py-2">NOMBRE</th>
-                                <th class="px-4 py-2">CUENTA</th>
-                                <th class="px-4 py-2">EXPEDIENTE</th>
-                                <th class="px-4 py-2">PAGÓ</th>
-                                <th class="px-4 py-2">ESTADO</th>
+                                <th class="px-4 py-2 text-center">CUENTA</th>
+                                <th class="px-4 py-2 text-center">EXPEDIENTE</th>
+                                <th class="px-4 py-2 text-center">PAGÓ</th>
+                                <th class="px-4 py-2 text-center">ESTADO</th>
                             </tr>
                         </thead>
                         <tbody>
                             @if ($citas->isEmpty())
                                 <tr>
-                                    <td colspan="8" class="text-center py-4">No hay citas registradas.</td>
+                                    <td colspan="7" class="text-center py-4 dark:text-white">No hay citas registradas.</td>
                                 </tr>
                             @else
                             @foreach ($citas->sortBy('hora') as $cita)
                             @if ($cita->doctor_id === auth()->id())
-                                        <tr class="appointment-row bg-blue-100 border-b border-blue-200" data-date="{{ $cita->fecha }}">
-                                            <td class="px-4 py-2">{{ $cita->hora }}</td>
-                                            <td class="px-4 py-2">{{ $cita->fecha }}</td>
-                                            <td class="px-4 py-2">{{ $cita->paciente->nombre }} {{ $cita->paciente->apellido_p }} {{ $cita->paciente->apellido_m }}</td>
-                                            <td class="px-4 py-2 text-center">${{ $cita->monto }}</td>
-                                            <td class="px-4 py-2 text-center">
-                                                <button id="factura-{{ $cita->id }}" class="text-red-600 hover:text-green-600" onclick="toggleCheck('factura-{{ $cita->id }}')">
-                                                    ▢
-                                                </button>
-                                            </td>
-                                            <td class="px-4 py-2 text-center">
-                                                <button id="pago-{{ $cita->id }}" class="text-red-600 hover:text-green-600" onclick="toggleCheck('pago-{{ $cita->id }}')">
-                                                    ▢
-                                                </button>
-                                            </td>
-                                            <td class="px-4 py-2 text-center">
-                                                Sin terminar<br>
-                                                <a href="{{ route('cita.consulta', $cita->id) }}" class="text-blue-600 hover:text-blue-400">Ir a cita</a>
-                                                CITA #{{ $cita->id }}
-                                            </td>
-                                        </tr>
-                                    @endif
-                                @endforeach
+                                <tr class="appointment-row bg-blue-100 border-b border-blue-200 dark:text-white whitespace-nowrap" data-date="{{ $cita->fecha }}">
+                                    <td class="px-4 py-2">{{ $cita->hora }}</td>
+                                    <td class="px-4 py-2">{{ $cita->fecha }}</td>
+                                    <td class="px-4 py-2 whitespace-normal">{{ $cita->paciente->nombre }} {{ $cita->paciente->apellido_p }} {{ $cita->paciente->apellido_m }}</td>
+                                    <td class="px-4 py-2 text-center whitespace-nowrap">${{ $cita->monto }}</td>
+                                    <td class="px-4 py-2 text-center whitespace-nowrap">
+                                        <button id="factura-{{ $cita->id }}" class="text-red-600 hover:text-green-600" onclick="toggleCheck('factura-{{ $cita->id }}')">
+                                            ▢
+                                        </button>
+                                    </td>
+                                    <td class="px-4 py-2 text-center whitespace-nowrap">
+                                        <button id="pago-{{ $cita->id }}" class="text-red-600 hover:text-green-600" onclick="toggleCheck('pago-{{ $cita->id }}')">
+                                            ▢
+                                        </button>
+                                    </td>
+                                    <td class="px-4 py-2 text-center dark:text-white whitespace-nowrap">
+                                        Sin terminar<br>
+                                        <a href="{{ route('cita.consulta', $cita->id) }}" class="text-blue-600 hover:text-blue-400">Ir a cita</a>
+                                        <br>
+                                        CITA #{{ $cita->id }}
+                                    </td>
+                                </tr>
+                            @endif
+                            @endforeach
                             @endif
                         </tbody>
                     </table>
@@ -67,7 +68,6 @@
             </div>
         </div>
     </div>
-
 
     <style>
         #calendar-container {
@@ -136,6 +136,12 @@
         .calendar-grid .has-appointments {
             background-color: #d6bcfa; 
         }
+        .whitespace-nowrap {
+            white-space: nowrap;
+        }
+        .whitespace-normal {
+            white-space: normal;
+        }
     </style>
 
     <script>
@@ -144,10 +150,10 @@
             const monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
             const daysOfWeek = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
             const today = new Date(); // Fecha actual
-            today.setDate(today.getDate() - 1); // Retrocede un día
+            today.setDate(today.getDate()); // No retrocede un día
             let currentMonth = today.getMonth();
             let currentYear = today.getFullYear();
-            let selectedDate = null; // Variable para almacenar la fecha seleccionada
+            let selectedDate = today.toISOString().split('T')[0]; // Variable para almacenar la fecha seleccionada
             const appointments = @json($citas);
 
             function generateCalendar(month, year) {
@@ -171,7 +177,7 @@
                 });
 
                 const nextButton = document.createElement('button');
-                nextButton.innerHTML = '&gt;'; // Símbolo de mayor mas bonis :)
+                nextButton.innerHTML = '&gt;'; // Símbolo de mayor
                 nextButton.classList.add('calendar-button');
                 nextButton.addEventListener('click', function() {
                     currentMonth++;
@@ -243,6 +249,8 @@
                 }
 
                 calendarContainer.appendChild(calendarGrid);
+                // Filtrar citas por la fecha actual al generar el calendario
+                filterAppointmentsByDate(selectedDate);
             }
 
             function filterAppointmentsByDate(date) {
@@ -272,7 +280,7 @@
         function toggleCheck(id) {
             var element = document.getElementById(id);
             if (element.innerHTML === '▢') {
-                element.innerHTML = '✔';
+                element.innerHTML = '✅';
                 element.classList.remove('text-red-600');
                 element.classList.add('text-green-600');
             } else {

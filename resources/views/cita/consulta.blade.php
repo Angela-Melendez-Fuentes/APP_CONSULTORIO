@@ -90,7 +90,9 @@
                 @method('POST')
                 <div class="mt-8">
                     <h3 class="text-lg font-bold mb-4">Signos Vitales</h3>
+                    
                     <div class="vital-signs">
+
                         <!-- Signos vitales -->
                         <div class="vital-sign">
                             <img src="{{ asset('images/icono-talla.png') }}" alt="Talla" style="width: 50px; max-width: 100%;">
@@ -109,35 +111,48 @@
                         </div>
                         <div class="vital-sign">
                             <img src="{{ asset('images/icono-TenArt.png') }}" alt="Arterial" style="width: 50px; max-width: 100%;">
-                            <p><input type="text" id="tension_arterial" name="tension_arterial" value="{{ $cita->tension_arterial }}"  class="w-20 h-10 p-2 border rounded"></p>
+                            <p><input type="text" id="tension_arterial" name="tension_arterial" value="{{ $cita->tension_arterial }}" class="w-20 h-10 p-2 border rounded" oninput="formatBloodPressure(this)"></p>
                             <p>Tensión Arterial (mm/Hg)</p>
                         </div>
                         <div class="vital-sign">
                             <img src="{{ asset('images/icono-Oxigeno.png') }}" alt="Oxígeno" style="width: 50px; max-width: 100%;">
-                            <p><input type="number" id="saturacion_oxigeno" name="saturacion_oxigeno" value="{{ $cita->saturacion_oxigeno }}"  class="w-20 h-10 p-2 border rounded"></p>
+                            <p><input type="number" id="saturacion_oxigeno" name="saturacion_oxigeno" value="{{ $cita->saturacion_oxigeno }}" class="w-20 h-10 p-2 border rounded"></p>
                             <p>Saturación de Oxígeno (%)</p>
                         </div>
                         <div class="vital-sign">
                             <img src="{{ asset('images/icono-cardiaca.png') }}" alt="Cardíaca" style="width: 50px; max-width: 100%;">
-                            <p><input type="number" id="frecuencia_cardiaca" name="frecuencia_cardiaca" value="{{ $cita->frecuencia_cardiaca }}"  class="w-20 h-10 p-2 border rounded"></p>
+                            <p><input type="number" id="frecuencia_cardiaca" name="frecuencia_cardiaca" value="{{ $cita->frecuencia_cardiaca }}" class="w-20 h-10 p-2 border rounded"></p>
                             <p>Frecuencia Cardíaca (bpm)</p>
                         </div>
                     </div>
                 </div>
-            <div class="mt-8">
+                
+                <script>
+                    function formatBloodPressure(input) {
+                        let value = input.value.replace(/[^\d]/g, ''); // Remover cualquier carácter que no sea número
+                        if (value.length > 3) {
+                            input.value = value.slice(0, 3) + '/' + value.slice(3, 5); // Insertar '/' después del tercer dígito
+                        } else {
+                            input.value = value;
+                        }
+                    }
+                </script>
+                
+                <div class="mt-8">
                     <h3 class="text-lg font-bold mb-4">Motivo de la Consulta</h3>
-                    <textarea class="w-full p-2 border rounded" name="motivo_consulta" rows="4">{{ $cita->motivo }}</textarea>
+                    <textarea class="w-full p-2 border rounded" name="motivo" rows="4">{{ $cita->motivo }}</textarea>
                 </div>
                 
                 <div class="mt-8">
                     <h3 class="text-lg font-bold mb-4">Alergias</h3>
-                    <textarea class="w-full p-2 border rounded" name="alergias" rows="4" placeholder="Escribir aquí..."></textarea>
+                    <textarea class="w-full p-2 border rounded" name="alergias" rows="4" placeholder="Escribir aquí...">{{ $cita->alergias}}</textarea>
                 </div>
                 
                 <div class="mt-8">
                     <h3 class="text-lg font-bold mb-4">Receta</h3>
-                    <textarea class="w-full p-2 border rounded" name="observaciones" rows="4">{{ $cita->observaciones }}</textarea>
+                    <textarea class="w-full p-2 border rounded" name="receta" rows="4">{{ $cita->receta }}</textarea>
                 </div>
+
 
                
                 

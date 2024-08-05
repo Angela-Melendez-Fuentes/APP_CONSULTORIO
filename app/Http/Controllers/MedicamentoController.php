@@ -9,8 +9,8 @@ class MedicamentoController extends Controller
 {
     public function index()
     {
-        $medicamentos = Medicamento::all();
-        return view('medicamentos.index', compact('medicamentos'));
+        $Medicamento = Medicamento::all();
+        return view('medicamentos.index', compact('Medicamento'));
     }
     
     public function mostrarFormulario()
@@ -24,13 +24,13 @@ class MedicamentoController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'medicamento' => 'required|string|max:255',
+            'Medicamento' => 'required|string|max:255',
             'cantidad' => 'required|integer',
             'frecuencia' => 'required|string|max:255',
         ]);
 
         Medicamento::create([
-            'medicamento' => $request->medicamento,
+            'Medicamento' => $request->Medicamento,
             'cantidad' => $request->cantidad,
             'frecuencia' => $request->frecuencia,
         ]);

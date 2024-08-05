@@ -35,6 +35,9 @@ class PacienteController extends Controller
         return abort(403, 'No tienes permiso para acceder a esta página.');
     }
 
+
+
+    
     // Actualiza en la base de datos lo que se cambie en la vista de editar pacientes
     public function update(Request $request, $id)
     {
@@ -54,6 +57,10 @@ class PacienteController extends Controller
 
         return redirect()->route('paciente')->with('success', 'Paciente actualizado correctamente');
     }
+
+
+
+
 
     // Muestra la lista de los pacientes solo si está logueado
     public function paciente(Request $request) {

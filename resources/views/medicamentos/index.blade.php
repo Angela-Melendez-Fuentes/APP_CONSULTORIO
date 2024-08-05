@@ -11,8 +11,8 @@
         <div class="mb-4">
             <h3 class="text-lg font-bold">Lista de Medicamentos</h3>
             <ul>
-                @foreach ($medicamentos as $medicamento)
-                    <li>{{ $medicamento->medicamento }} - Cantidad: {{ $medicamento->cantidad }} - Frecuencia: {{ $medicamento->frecuencia }}</li>
+                @foreach ($Medicamento as $medicamentos)
+                    <li>{{ $medicamentos->Medicamento }} - Cantidad: {{ $medicamentos->cantidad }} - Precio: {{ $medicamentos->frecuencia }}</li>
                 @endforeach
             </ul>
         </div>
@@ -30,7 +30,7 @@
             </div>
 
             <div class="mb-4">
-                <label for="frecuencia" class="block text-sm font-medium text-gray-700">Frecuencia</label>
+                <label for="frecuencia" class="block text-sm font-medium text-gray-700">Precio</label>
                 <input type="text" id="frecuencia" name="frecuencia" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm" required>
             </div>
 
