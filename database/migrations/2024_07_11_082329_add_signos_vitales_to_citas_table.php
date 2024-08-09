@@ -15,6 +15,7 @@ class AddSignosVitalesToCitasTable extends Migration
             $table->integer('frecuencia_cardiaca')->nullable();
             $table->float('peso')->nullable();
             $table->string('tension_arterial')->nullable();
+            
         });
     }
 
