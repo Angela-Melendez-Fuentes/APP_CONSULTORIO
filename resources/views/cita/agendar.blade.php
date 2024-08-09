@@ -23,7 +23,6 @@
                         <span class="block sm:inline">{{ session('success') }}</span>
                     </div>
                 @endif
-                
     
                 <form action="{{ route('cita.store') }}" method="POST">
                     @csrf

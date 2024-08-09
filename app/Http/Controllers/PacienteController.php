@@ -15,7 +15,7 @@ class PacienteController extends Controller
             'nombre' => 'required|string|max:255',
             'apellido_p' => 'required|string|max:255',
             'apellido_m' => 'required|string|max:255',
-            'age' => 'required|integer',
+            'age' => 'required|string|max:100',
             'correo' => 'required|email|unique:pacientes|max:255',
             'telefono' => 'nullable|string|max:255',
             'fecha_nacimiento' => 'nullable|date',
@@ -35,9 +35,6 @@ class PacienteController extends Controller
         return abort(403, 'No tienes permiso para acceder a esta página.');
     }
 
-
-
-    
     // Actualiza en la base de datos lo que se cambie en la vista de editar pacientes
     public function update(Request $request, $id)
     {
@@ -45,7 +42,7 @@ class PacienteController extends Controller
             'nombre' => 'required|string|max:255',
             'apellido_p' => 'required|string|max:255',
             'apellido_m' => 'required|string|max:255',
-            'age' => 'required|integer',
+            'age' => 'required|string|max:100',
             'correo' => 'required|email|max:255',
             'telefono' => 'required|string|max:15',
             'fecha_nacimiento' => 'required|date',
@@ -57,10 +54,6 @@ class PacienteController extends Controller
 
         return redirect()->route('paciente')->with('success', 'Paciente actualizado correctamente');
     }
-
-
-
-
 
     // Muestra la lista de los pacientes solo si está logueado
     public function paciente(Request $request) {

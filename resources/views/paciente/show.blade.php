@@ -1,13 +1,13 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-bold text-2xl text-blue-700 leading-tight">
-            {{ __('Detalles del Paciente') }}
-        </h2>
-    </x-slot>
+    <header class="bg-blue dark:bg-blue-200 shadow">
+        <div class="bg-blue-200 dark:bg-blue-200 flex items-center justify-center">
+            <img src="{{ asset('images/detalles.png') }}" alt="Detalles del paciente" style="width: 800px; max-width: 100%;">
+        </div>
+    </header>
 
-    <div class="py-12 bg-gray-100">
+    <div class="py-12 bg-blue-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-md sm:rounded-lg p-6">
+            <div class="bg-white dark:bg-white overflow-hidden shadow-md sm:rounded-lg p-6">
                 <h3 class="text-xl font-semibold mb-4">{{ $paciente->nombre }} {{ $paciente->apellido_p }} {{ $paciente->apellido_m }}</h3>
 
                 <p><strong>Correo:</strong> {{ $paciente->correo }}</p>
@@ -28,9 +28,9 @@
         </div>
     </div>
 
-    <div class="py-12 bg-gray-100">
+    <div class="py-12 bg-blue-200 dark: bg-blue-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-md sm:rounded-lg p-6">
+            <div class="bg-white dark:bg-white overflow-hidden shadow-md sm:rounded-lg p-6">
                 <h3 class="text-xl font-semibold mb-4">Citas</h3>
                 
                 @if ($citas->isNotEmpty())
@@ -41,7 +41,8 @@
                             <p><strong>Motivo:</strong> {{ $cita->motivo }}</p>
                             <p><strong>Observaciones:</strong> {{ $cita->observaciones }}</p>
                             <!-- Agregar enlace para ver detalles de la cita -->
-                            <a href="{{ route('cita.show', $cita->id) }}" class="text-blue-600 hover:text-blue-900">Ver detalles de la cita</a>
+                            <a href="{{ route('cita.consulta', $cita->id) }}" class="text-blue-600 hover:text-blue-400">Ver detalles de la cita</a>
+
                         </div>
                     @endforeach
                 @else

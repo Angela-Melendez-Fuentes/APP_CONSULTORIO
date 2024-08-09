@@ -23,7 +23,7 @@
                                 class="bg-gray-100 text-sm px-4 py-2.5 rounded-md outline-blue-500"
                                 value="{{ request('search') }}">
                             <button type="submit"
-                                class="ml-2 px-4 py-2 bg-blue-600 text-white rounded-md">Buscar</button>
+                                class="ml-2 px-4 py-2 bg-blue-200 text-black rounded-md">Buscar</button>
                         </form>
                     </div>
                 </div>
@@ -33,8 +33,8 @@
                         No hay registro de ese paciente.
                     </div>
                 @else
-                    <table class="w-full text-sm text-center text-gray-600">
-                        <thead class="text-xs text-gray-800 uppercase bg-blue-600">
+                    <table class="w-full text-sm text-center text-gray-600 ">
+                        <thead class="text-xs text-gray-800 uppercase bg-blue-200">
                             <tr>
                                 <th scope="col" class="px-6 py-3 font-bold">Nombre Paciente</th>
                                 <th scope="col" class="px-6 py-3 font-bold">Correo</th>
@@ -95,7 +95,7 @@
                     if ('{{ auth()->user()->tipo }}' != 'admin') {
                         Swal.fire({
                             title: "No eres admin",
-                            text: "Eres subnormal o que??",
+                            text: "No puedes editar",
                             icon: "error"
                         });
                     } else {

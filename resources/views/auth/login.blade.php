@@ -63,7 +63,7 @@
                 color: #4a5568; /* gray-600 */
                 transition: color 0.2s ease;
                 border-radius: 0.375rem; /* rounded-md */
-                padding: 0.5rem; /* p-2 */
+                padding: 0.9rem; /* p-2 */
                 text-decoration: none;
             }
             
@@ -93,8 +93,8 @@
                 align-items: center;
             }
             .text-center {
-    text-align: center;
-}
+                text-align: center;
+            }
             
             </style>
 
@@ -117,9 +117,6 @@
                     </div>
                 </a>
             </div>
-
-            
-            
             
         </div>
         <div class="absolute right-10 bottom-10">

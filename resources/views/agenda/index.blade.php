@@ -7,7 +7,7 @@
 
     <div class="py-12 bg-blue-100 min-h-screen flex">
         <div class="w-4/5 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-700 overflow-hidden shadow-md sm:rounded-lg p-6 flex">
+            <div class="bg-white dark:bg-white overflow-hidden shadow-md sm:rounded-lg p-6 flex">
                 <div class="w-1/3 pr-6" style="margin-right: 2cm;">
                     <!-- Contenedor del calendario -->
                     <div id="calendar-container" class="mb-6 bg-white dark:bg-gray-600 p-4 shadow-md rounded-lg" style="height: 400px; width: 300px;"></div>
@@ -150,7 +150,7 @@
             const monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
             const daysOfWeek = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
             const today = new Date(); // Fecha actual
-            today.setDate(today.getDate()); // No retrocede un día
+            today.setDate(today.getDate() - 1); // No retrocede un día
             let currentMonth = today.getMonth();
             let currentYear = today.getFullYear();
             let selectedDate = today.toISOString().split('T')[0]; // Variable para almacenar la fecha seleccionada

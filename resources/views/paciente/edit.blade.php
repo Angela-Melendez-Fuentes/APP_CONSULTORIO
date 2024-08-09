@@ -1,11 +1,11 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-bold text-2xl text-blue-700 leading-tight">
-            {{ __('Editar paciente') }}
-        </h2>
-    </x-slot>
+    <header class="bg-blue dark:bg-blue-200 shadow">
+        <div class="bg-blue-200 flex items-center justify-center">
+            <img src="{{ asset('images/editar.png') }}" alt="Editar pacientes" style="width: 800px; max-width: 100%;">
+        </div>
+    </header>
 
-    <div class="py-12 bg-gray-100">
+    <div class="py-12 bg-blue-200">
         <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
             <div class="relative overflow-hidden shadow-lg rounded-lg bg-white p-6">
                 @if ($errors->any())
@@ -39,7 +39,7 @@
 
                     <div class="mb-4">
                         <label for="age" class="block text-gray-700 font-medium mb-2">Edad:</label>
-                        <input type="number" name="age" id="age" value="{{ $paciente->age }}" class="w-full p-2 border border-gray-300 rounded-lg focus:ring focus:ring-blue-200 focus:border-blue-500">
+                        <input type="text" name="age" id="age" value="{{ $paciente->age }}" class="w-full p-2 border border-gray-300 rounded-lg focus:ring focus:ring-blue-200 focus:border-blue-500" readonly>
                     </div>
 
                     <div class="mb-4">
@@ -74,15 +74,32 @@
     </div>
 
     <script>
+        function setMaxDate() {
+            const today = new Date();
+            const day = String(today.getDate()).padStart(2, '0');
+            const month = String(today.getMonth() + 1).padStart(2, '0'); // Los meses empiezan en 0
+            const year = today.getFullYear();
+            const maxDate = `${year}-${month}-${day}`;
+            
+            document.getElementById('fecha_nacimiento').setAttribute('max', maxDate);
+        }
+
         function calculateAge(birthday) {
             const today = new Date();
             const birthDate = new Date(birthday);
-            let age = today.getFullYear() - birthDate.getFullYear();
-            const monthDifference = today.getMonth() - birthDate.getMonth();
-            if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDate.getDate())) {
-                age--;
+            const diffTime = Math.abs(today - birthDate);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            const ageYears = Math.floor(diffDays / 365);
+            const ageMonths = Math.floor(diffDays / 30);
+            const ageWeeks = Math.floor(diffDays / 7);
+
+            if (ageYears >= 2) {
+                return `${ageYears} años`;
+            } else if (ageMonths >= 2) {
+                return `${ageMonths} meses`;
+            } else {
+                return `${diffDays} días`;
             }
-            return age;
         }
 
         function calculateAgeAndValidate() {
@@ -94,14 +111,24 @@
 
         function validateForm() {
             const birthDate = document.getElementById('fecha_nacimiento').value;
+            const today = new Date().toISOString().split('T')[0]; // Obtener la fecha actual en formato YYYY-MM-DD
+            
+            if (birthDate > today) {
+                alert('La fecha de nacimiento no puede ser futura.');
+                return false;
+            }
+
             const ageField = document.getElementById('age').value;
             const calculatedAge = calculateAge(birthDate);
 
-            if (parseInt(ageField) !== calculatedAge) {
+            if (ageField !== calculatedAge) {
                 alert('La edad no coincide con la fecha de nacimiento.');
                 return false;
             }
             return true;
         }
+
+        // Establecer la fecha máxima al cargar la página
+        document.addEventListener('DOMContentLoaded', setMaxDate);
     </script>
 </x-app-layout>

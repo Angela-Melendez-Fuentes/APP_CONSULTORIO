@@ -14,9 +14,7 @@ class Medicamento extends Model
     protected $fillable = [
         'Medicamento',
         'cantidad',
-        'frecuencia',
-        'fecha_agregado',
-        'fecha_update',
+        'precio',
     ];
 
     

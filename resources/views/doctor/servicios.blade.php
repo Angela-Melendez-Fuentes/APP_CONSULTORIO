@@ -12,8 +12,8 @@
             <div class="relative overflow-x-auto shadow-md sm:rounded-lg bg-white p-6">
                 <div class="flex justify-between items-center mb-6">
                     <div class="flex items-center">
-                        <a href="{{ route('servicios.create') }}" class="text-gray-600 hover:text-gray-900 focus:ring-4 focus:outline-none focus:ring-green-300 rounded-lg text-sm px-2.5 py-2.5 bg-transparent">
-                            <i class="fas fa-plus-circle"></i> Agregar Servicio
+                        <a href="{{ route('servicios.create') }}" class="ml-2 px-4 py-2 bg-blue-200 text-black rounded-md">
+                            Agregar Servicio
                         </a>
                     </div>
                 </div>
@@ -24,7 +24,7 @@
                     </div>
                 @else
                     <table class="w-full text-sm text-center text-gray-600">
-                        <thead class="text-xs text-gray-800 uppercase bg-blue-600">
+                        <thead class="text-xs text-gray-800 uppercase bg-blue-200">
                             <tr>
                                 <th scope="col" class="px-6 py-3 font-bold">Nombre</th>
                                 <th scope="col" class="px-6 py-3 font-bold">Descripción</th>

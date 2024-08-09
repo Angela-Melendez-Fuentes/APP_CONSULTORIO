@@ -7,7 +7,7 @@
 
     <div class="py-12 bg-blue-100 min-h-screen">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-700 overflow-hidden shadow-md sm:rounded-lg p-6">
+            <div class="bg-white dark:bg-white overflow-hidden shadow-md sm:rounded-lg p-6">
                 <table class="w-full table-auto">
                     <thead>
                         <tr class="bg-blue-200 text-blue-800">
@@ -28,7 +28,7 @@
                         @else
                             @foreach ($citas as $cita)
                                 @if ($cita->doctor_id === auth()->id())
-                                    <tr class="bg-blue-100 border-b border-blue-200 dark:text-white">
+                                    <tr class="bg-blue-100 border-b border-blue-200 dark:text-black">
                                         <td class="px-4 py-2">{{ $cita->fecha }}</td>
                                         <td class="px-4 py-2">{{ $cita->hora }}</td>
                                                                                

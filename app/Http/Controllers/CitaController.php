@@ -120,6 +120,4 @@ class CitaController extends Controller
 
         return redirect()->route('cita.consulta', $citaId)->with('success', 'Consulta guardada exitosamente.');
     }
-
-    
 }

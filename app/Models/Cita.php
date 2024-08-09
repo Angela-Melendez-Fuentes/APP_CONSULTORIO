@@ -28,6 +28,7 @@ class Cita extends Model
         'tension_arterial',
         'receta',
         'alergias',
+        'diagnostico',
     ];
     
     // Relación con el paciente

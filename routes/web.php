@@ -107,28 +107,6 @@ require __DIR__.'/auth.php';
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 use App\Http\Controllers\MenuController;
 
 Route::get('/', [MenuController::class, 'welcome'])->middleware(['auth', 'verified'])->name('welcome');

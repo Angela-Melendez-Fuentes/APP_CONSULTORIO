@@ -24,15 +24,15 @@ class MedicamentoController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'Medicamento' => 'required|string|max:255',
+            'medicamento' => 'required|string|max:255',
             'cantidad' => 'required|integer',
-            'frecuencia' => 'required|string|max:255',
+            'precio' => 'required|string|max:255',
         ]);
 
         Medicamento::create([
-            'Medicamento' => $request->Medicamento,
+            'Medicamento' => $request->medicamento,
             'cantidad' => $request->cantidad,
-            'frecuencia' => $request->frecuencia,
+            'precio' => $request->precio,
         ]);
 
         return redirect()->route('medicamentos.index')->with('success', 'Medicamento agregado exitosamente.');

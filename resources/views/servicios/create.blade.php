@@ -1,10 +1,11 @@
-
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-bold text-2xl text-blue-700 leading-tight">
-            {{ __('Crear Servicio') }}
-        </h2>
-    </x-slot>
+    <header class="bg-blue-200 bg-blue-200">
+        <div class="bg-blue-200 max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-center bg-blue-200">
+                <img src="{{ asset('images/servicios.png') }}" alt="Registro" style="width: 500px; max-width: 100%;">
+            </div>
+        </div>
+    </header>
 
     <div class="py-12 bg-gray-100">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

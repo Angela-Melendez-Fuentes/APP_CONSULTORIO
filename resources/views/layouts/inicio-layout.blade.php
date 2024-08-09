@@ -12,19 +12,16 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="font-sans text-gray-900 antialiased bg-gray-100 dark:bg-gray-800">
-    <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0">
-        <div class="font-[sans-serif] text-[#333]">
-            <div class="min-h-screen flex flex-col items-center justify-center">
-                <div class="grid md:grid-cols-2 items-center gap-4 max-w-6xl w-full p-4 m-4 shadow-[0_2px_10px_-3px_rgba(6,81,237,0.3)] rounded-md bg-white dark:bg-gray-800">
-                    <div class="w-full sm:max-w-6xl mt-5 px-5 py-2 mb-5 bg-white dark:bg-gray-800 overflow-hidden sm:rounded-lg" style="height: 600px;">
-                        @yield('content')
-                    </div>
-
-                    <!-- Sección de la imagen -->
-                    <div class="md:h-full max-md:mt-10">
-                        <img src="images/AngelaLogin.png" class="w-full h-full object-contain" alt="Descripción de la imagen" />
-                    </div>
-                </div>
+    
+    <div class="min-h-screen flex items-center justify-center pt-6 sm:pt-0">
+        <div class="font-[sans-serif] text-[#333] flex sm:flex-row w-full max-w-4xl p-4 m-4 shadow-[0_2px_10px_-3px_rgba(6,81,237,0.3)] rounded-md bg-white dark:bg-gray-800">
+            <!-- Contenido del formulario -->
+            <div class="w-full sm:w-2/3 p-5 bg-white dark:bg-gray-800 overflow-hidden sm:rounded-lg">
+                @yield('content')
+            </div>
+            <!-- Sección de la imagen -->
+            <div class="flex items-center justify-center w-full sm:w-1/3 p-5">
+                <img src="images/AngelaLogin.png" class="max-w-full max-h-full object-contain" alt="Descripción de la imagen" />
             </div>
         </div>
     </div>
