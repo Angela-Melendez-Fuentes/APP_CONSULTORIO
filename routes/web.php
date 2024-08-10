@@ -11,6 +11,9 @@ use App\Http\Controllers\RegisteredUserController;
 use App\Http\Controllers\MedicamentoController;
 use App\Http\Controllers\ConsultaController;
 
+Route::resource('medicamentos', MedicamentoController::class);
+
+
 Route::post('/cita/{id}/consulta', [ConsultaController::class, 'store'])->name('cita.consulta');
 
 Route::post('/cita/{id}/consulta', [CitaController::class, 'guardarConsulta'])->name('cita.consulta');

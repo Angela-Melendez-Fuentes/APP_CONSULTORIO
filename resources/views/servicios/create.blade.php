@@ -1,5 +1,5 @@
 <x-app-layout>
-    <header class="bg-blue-200 bg-blue-200">
+    <header class="bg-blue-200">
         <div class="bg-blue-200 max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
             <div class="flex justify-center bg-blue-200">
                 <img src="{{ asset('images/servicios.png') }}" alt="Registro" style="width: 500px; max-width: 100%;">
@@ -7,7 +7,7 @@
         </div>
     </header>
 
-    <div class="py-12 bg-gray-100">
+    <div class="py-12 bg-blue-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="relative overflow-x-auto shadow-md sm:rounded-lg bg-white p-6">
                 <form method="POST" action="{{ route('servicios.store') }}">
@@ -28,9 +28,10 @@
                         <input type="number" name="precio" id="precio" class="mt-1 p-2 border rounded-md w-full" required />
                     </div>
 
-                    <!-- Botón de enviar -->
-                    <div class="mt-4">
-                        <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-md">Crear Servicio</button>
+                    <!-- Botones -->
+                    <div class="mt-4 flex gap-4">
+                        <button type="submit" class="px-4 py-2 bg-blue-200 text-black rounded-md">Crear Servicio</button>
+                        <a href="{{ route('doctor.servicios') }}" class="px-4 py-2 bg-blue-200 text-black rounded-md text-center">Cancelar</a>
                     </div>
                 </form>
             </div>

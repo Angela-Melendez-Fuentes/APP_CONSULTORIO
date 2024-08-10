@@ -11,14 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('table_medicamento', function (Blueprint $table) {
-            $table->id();
-            $table->string ('nombre');
-            $table->string ('descripcion');
-            $table->float('precio');
-            $table->int('cantidad');
-            $table->timestamps();
-        });
+        if(Schema::hasTable('medicamentos')){
+            Schema::create('medicamentos', function (Blueprint $table) {
+                $table->id();
+                $table->string('nombre');
+                $table->string('descripcion');
+                $table->float('precio');
+                $table->integer('cantidad');
+                $table->timestamps();
+            });
+        }
     }
 
     /**
@@ -26,6 +28,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('table_medicamento');
+        Schema::disableForeignKeyConstraints();
+        Schema::dropIfExists('medicamentos');
+        Schema::enableForeignKeyConstraints();
     }
 };

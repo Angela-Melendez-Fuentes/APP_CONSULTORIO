@@ -13,19 +13,21 @@ class CreatePacientesTable extends Migration
      */
     public function up()
     {
-        Schema::create('pacientes', function (Blueprint $table) {
-            $table->id(); // This creates an auto_increment primary key column named `id`
-            $table->string('nombre', 255);
-            $table->string('apellido_p', 255);
-            $table->string('apellido_m', 255);
-            $table->integer('age');
-            $table->string('correo', 255);
-            $table->string('telefono', 255);
-            $table->date('fecha_nacimiento');
-            $table->enum('genero_biologico', ['Masculino', 'Femenino']);
-            $table->timestamps(); // This creates `created_at` and `updated_at` columns
-            
-        });
+        if(!Schema::hasTable('pacientes')){
+            Schema::create('pacientes', function (Blueprint $table) {
+                $table->id(); // This creates an auto_increment primary key column named `id`
+                $table->string('nombre', 255);
+                $table->string('apellido_p', 255);
+                $table->string('apellido_m', 255);
+                $table->string('age', 255);
+                $table->string('correo', 255);
+                $table->string('telefono', 255);
+                $table->date('fecha_nacimiento');
+                $table->enum('genero_biologico', ['Masculino', 'Femenino']);
+                $table->timestamps(); // This creates `created_at` and `updated_at` columns
+                
+            });
+        }
     }
 
     /**
@@ -34,7 +36,9 @@ class CreatePacientesTable extends Migration
      * @return void
      */
     public function down()
-    {
+    {   
+        Schema::disableForeignKeyConstraints();
         Schema::dropIfExists('pacientes');
+        Schema::enableForeignKeyConstraints();
     }
 }

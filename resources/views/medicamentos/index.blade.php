@@ -1,5 +1,5 @@
 <x-app-layout>
-    <header class="bg-blue-200 bg-blue-200">
+    <header class="bg-blue-200">
         <div class="bg-blue-200 max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
             <div class="flex justify-center bg-blue-200">
                 <img src="{{ asset('images/medicamento.png') }}" alt="Registro" style="width: 600px; max-width: 100%;">
@@ -7,46 +7,81 @@
         </div>
     </header>
 
-    </header>
     <div class="container mx-auto max-w-screen-xl p-8 bg-white rounded shadow-md mt-20">
-        <div class="mb-4">
-            <h3 class="text-lg font-bold">Lista de Medicamentos</h3>
-            <ul>
-                @foreach ($Medicamento as $medicamentos)
-                    <li>{{ $medicamentos->Medicamento }} - Cantidad: {{ $medicamentos->cantidad }} - Precio: {{ $medicamentos->frecuencia }}</li>
-                @endforeach
-
-
-                @foreach ($Medicamento as $medicamentos)
-                <li>{{ $medicamentos->Medicamento }} - Cantidad: {{ $medicamentos->cantidad }} - Precio: {{ $medicamentos->frecuencia }}</li>
-            @endforeach
-            </ul>
+        <div class="text-right mb-4">
+            <a href="{{ route('medicamentos.create') }}" class="bg-blue-500 text-white px-4 py-2 rounded">Agregar Medicamento</a>
         </div>
 
-        <form action="{{ route('medicamentos.store') }}" method="POST">
-            @csrf
-            <div class="mb-4">
-                <label for="medicamento" class="block text-sm font-medium text-gray-700">Medicamento</label>
-                <input type="text" id="medicamento" name="medicamento" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm" required>
-            </div>
+        <!-- Contenedor para centrar la tabla -->
+        <div class="flex justify-center">
+            <table class="min-w-full bg-white border border-gray-200">
+                <thead class="bg-blue-200">
+                    <tr>
+                        <th class="px-6 py-3 border-b-2 border-gray-300 text-left leading-4 text-black tracking-wider">NOMBRE</th>
+                        <th class="px-6 py-3 border-b-2 border-gray-300 text-left leading-4 text-black tracking-wider">DESCRIPCIÓN</th>
+                        <th class="px-6 py-3 border-b-2 border-gray-300 text-left leading-4 text-black tracking-wider">PRECIO</th>
+                        <th class="px-6 py-3 border-b-2 border-gray-300 text-left leading-4 text-black tracking-wider">CANTIDAD</th>
+                        <th class="px-6 py-3 border-b-2 border-gray-300 text-left leading-4 text-black tracking-wider">ACCIONES</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($Medicamento as $medicamento)
+                        <tr>
+                            <td class="px-6 py-4 border-b border-gray-200">{{ $medicamento->nombre }}</td>
+                            <td class="px-6 py-4 border-b border-gray-200">{{ $medicamento->descripcion }}</td>
+                            <td class="px-6 py-4 border-b border-gray-200">{{ $medicamento->precio }}</td>
+                            <td class="px-6 py-4 border-b border-gray-200">{{ $medicamento->cantidad }}</td>
+                            <td class="px-6 py-4 border-b border-gray-200">
+                                <a href="{{ route('medicamentos.edit', $medicamento->id) }}" class="text-blue-600 hover:text-blue-900">Editar</a> |
 
-            <div class="mb-4">
-                <label for="cantidad" class="block text-sm font-medium text-gray-700">Cantidad</label>
-                <input type="number" id="cantidad" name="cantidad" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm" required>
-            </div>
-
-            <div class="mb-4">
-                <label for="precio" class="block text-sm font-medium text-gray-700">Precio</label>
-                <input type="text" id="precio" name="precio" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm" required>
-            </div>
-
-            <div class="text-right">
-                <button type="submit" class="bg-green-500 text-black px-4 py-2 rounded">Agregar Medicamento</button>
-            </div>
-        </form>
+                                <form action="{{ route('medicamentos.destroy', $medicamento->id) }}" method="POST" class="delete-form" style="display: inline-block;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="button" class="text-red-600 hover:text-red-900 delete-button">Eliminar</button>
+                                </form>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
     </div>
+
+    <!-- Script para SweetAlert -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const deleteButtons = document.querySelectorAll('.delete-button');
+
+            deleteButtons.forEach(button => {
+                button.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    const form = this.closest('.delete-form');
+
+                    Swal.fire({
+                        title: '¿Estás seguro?',
+                        text: "¡No podrás revertir esto!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Sí, eliminar!',
+                        cancelButtonText: 'Cancelar'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            form.submit();
+                        }
+                    });
+                });
+            });
+
+            @if(session('success'))
+                Swal.fire({
+                    title: '¡Éxito!',
+                    text: '{{ session('success') }}',
+                    icon: 'success',
+                    confirmButtonText: 'Ok'
+                });
+            @endif
+        });
+    </script>
 </x-app-layout>
-
-
-
-

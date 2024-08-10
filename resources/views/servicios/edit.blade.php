@@ -29,8 +29,10 @@
                         <input type="number" name="precio" id="precio" class="mt-1 p-2 border rounded-md w-full" value="{{ $servicio->precio }}" required />
                     </div>
 
-                    <div class="mt-4">
-                        <button type="submit" class="px-4 py-2 bg-blue-600 text-black rounded-md">Actualizar Servicio</button>
+                    <div class="mt-4 flex gap-4">
+                        <button type="submit" class="px-4 py-2 bg-blue-200 text-black rounded-md text-center">Actualizar Servicio</button>
+                        <a href="{{ route('doctor.servicios') }}" class="px-4 py-2 bg-blue-200 text-black rounded-md text-center">Cancelar</a>
+
                     </div>
                 </form>
             </div>

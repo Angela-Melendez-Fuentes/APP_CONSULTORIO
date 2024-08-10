@@ -19,24 +19,64 @@ class MedicamentoController extends Controller
         return view('cita/consulta', compact('medicamentos'));
     }
 
-    
+    public function create()
+    {
+        return view('medicamentos.create');
+    }
 
     public function store(Request $request)
     {
+        // Validación de datos
         $request->validate([
-            'medicamento' => 'required|string|max:255',
+            'nombre' => 'required|string|max:255',
+            'descripcion' => 'required|string|max:255',
+            'precio' => 'required|numeric',
             'cantidad' => 'required|integer',
-            'precio' => 'required|string|max:255',
         ]);
 
+        // Creación del medicamento
         Medicamento::create([
-            'Medicamento' => $request->medicamento,
-            'cantidad' => $request->cantidad,
+            'nombre' => $request->nombre,
+            'descripcion' => $request->descripcion,
             'precio' => $request->precio,
+            'cantidad' => $request->cantidad,
         ]);
 
         return redirect()->route('medicamentos.index')->with('success', 'Medicamento agregado exitosamente.');
     }
+
+    public function edit($id)
+    {
+        $medicamento = Medicamento::findOrFail($id);
+        return view('medicamentos.edit', compact('medicamento'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        // Validación de datos
+        $request->validate([
+            'nombre' => 'required|string|max:255',
+            'descripcion' => 'required|string|max:255',
+            'precio' => 'required|numeric',
+            'cantidad' => 'required|integer',
+        ]);
+
+        // Actualización del medicamento
+        $medicamento = Medicamento::findOrFail($id);
+        $medicamento->nombre = $request->input('nombre');
+        $medicamento->descripcion = $request->input('descripcion');
+        $medicamento->precio = $request->input('precio');
+        $medicamento->cantidad = $request->input('cantidad');
+        $medicamento->save();
+
+        return redirect()->route('medicamentos.index')->with('success', 'Medicamento actualizado exitosamente.');
+    }
+
+    public function destroy($id)
+    {
+        $medicamento = Medicamento::findOrFail($id);
+        $medicamento->delete();
+
+        return redirect()->route('medicamentos.index')->with('success', 'Medicamento eliminado exitosamente.');
+    }
 }
-
-

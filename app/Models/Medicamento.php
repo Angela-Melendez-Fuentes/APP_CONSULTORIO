@@ -9,13 +9,12 @@ class Medicamento extends Model
 {
     use HasFactory;
 
-    protected $table = 'medicamentos';
+    protected $table = 'medicamento';
 
     protected $fillable = [
-        'Medicamento',
-        'cantidad',
+        'nombre',
+        'descripcion',
         'precio',
+        'cantidad',
     ];
-
-    
 }
