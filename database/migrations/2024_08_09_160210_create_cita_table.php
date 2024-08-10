@@ -11,6 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
+	if(!Schema::hasTable('citas')){
         Schema::create('citas', function (Blueprint $table) {
             $table->id();
             $table->foreignId('paciente_id')->nullable()->constrained('users')->onDelete('set null');
@@ -32,6 +33,7 @@ return new class extends Migration
             $table->string('alergias');
             $table->timestamps();
         });
+	}
     }
 
     /**
@@ -39,6 +41,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('cita');
+	Schema::disableForeignKeyConstraints();	
+        Schema::dropIfExists('citas');
+	Schema::enableForeignKeyConstraints();
     }
 };

@@ -36,16 +36,9 @@ class CreatePacientesTable extends Migration
      * @return void
      */
     public function down()
-<<<<<<< HEAD
     {   
         Schema::disableForeignKeyConstraints();
         Schema::dropIfExists('pacientes');
         Schema::enableForeignKeyConstraints();
-=======
-    {
-	Schema::disableForeignKeyConstraints();
-        Schema::dropIfExists('pacientes');
-	Schema::enableForeignKeyConstraints();
->>>>>>> b358250 (ActualizacionBase)
-    }
+     }
 }
