@@ -11,6 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
+<<<<<<< HEAD
         if(Schema::hasTable('medicamentos')){
             Schema::create('medicamentos', function (Blueprint $table) {
                 $table->id();
@@ -21,6 +22,16 @@ return new class extends Migration
                 $table->timestamps();
             });
         }
+=======
+        Schema::create('table_medicamento', function (Blueprint $table) {
+            $table->id();
+            $table->string ('nombre');
+            $table->string ('descripcion');
+            $table->float('precio');
+            $table->integer('cantidad');
+            $table->timestamps();
+        });
+>>>>>>> b358250 (ActualizacionBase)
     }
 
     /**
