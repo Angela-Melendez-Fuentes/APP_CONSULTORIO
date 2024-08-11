@@ -31,6 +31,9 @@
                     const age = calculateAge(birthDateElement.textContent);
                     ageElement.textContent = age;
                 }
+
+                // Attach event listeners to existing rows
+                updateEventListeners();
             });
 
             function addMedicationRow() {
@@ -41,7 +44,7 @@
                     <select name="medicamentos[]" class="w-full p-2 border rounded text-black">
                         <option value="" class="text-black">Seleccione un medicamento</option>
                         @foreach($medicamentos as $medicamento)
-                            <option value="{{ $medicamento->id }}" class="text-black">{{ $medicamento->Medicamento }}</option>
+                            <option value="{{ $medicamento->id }}" class="text-black">{{ $medicamento->nombre }}</option>
                         @endforeach
                     </select>
                     <input type="text" name="cantidades[]" class="w-full p-2 border rounded" placeholder="Cantidad" oninput="validatePositive(this)">
@@ -49,10 +52,14 @@
                     <button type="button" class="bg-purple-400 text-white px-4 py-2 rounded" onclick="removeMedicationRow(this)">Eliminar</button>
                 `;
                 container.appendChild(row);
+
+                // Attach event listeners to the new row
+                updateEventListeners();
             }
 
             function removeMedicationRow(button) {
                 button.parentElement.remove();
+                updateSelectedMedications();
             }
 
             function validatePositive(input) {
@@ -67,6 +74,42 @@
                 } else {
                     input.value = value;
                 }
+            }
+
+            function updateSelectedMedications() {
+                const container = document.getElementById('medication-container');
+                const selectedList = document.getElementById('selected-medications');
+                selectedList.innerHTML = '';
+
+                const rows = container.getElementsByClassName('grid');
+                Array.from(rows).forEach(row => {
+                    const medication = row.querySelector('select').selectedOptions[0].text;
+                    const quantity = row.querySelector('input[name="cantidades[]"]').value;
+                    const frequency = row.querySelector('input[name="frecuencias[]"]').value;
+
+                    if (medication && quantity && frequency) {
+                        const listItem = document.createElement('li');
+                        listItem.textContent = `${medication} - Cantidad: ${quantity}, Frecuencia: ${frequency}`;
+                        selectedList.appendChild(listItem);
+                    }
+                });
+            }
+
+            function updateEventListeners() {
+                document.querySelectorAll('select[name="medicamentos[]"]').forEach(select => {
+                    select.removeEventListener('change', updateSelectedMedications); // Remove previous listeners
+                    select.addEventListener('change', updateSelectedMedications);
+                });
+
+                document.querySelectorAll('input[name="cantidades[]"]').forEach(input => {
+                    input.removeEventListener('input', updateSelectedMedications); // Remove previous listeners
+                    input.addEventListener('input', updateSelectedMedications);
+                });
+
+                document.querySelectorAll('input[name="frecuencias[]"]').forEach(input => {
+                    input.removeEventListener('input', updateSelectedMedications); // Remove previous listeners
+                    input.addEventListener('input', updateSelectedMedications);
+                });
             }
         </script>
     </head>
@@ -87,6 +130,7 @@
             margin: 0 auto 0.5rem;
         }
     </style>
+
     <body class="bg-blue-200">
         <div class="container mx-auto max-w-screen-xl p-8 bg-white rounded shadow-md mt-20">
             <div class="text-center">
@@ -161,8 +205,10 @@
                 </div>
 
 
-
-
+            <form action="{{ route('consulta.store', $cita->id) }}" method="POST">
+                @csrf
+                @method('POST')
+                <!-- Sección para agregar medicamentos -->
                 <div class="mt-8">
                     <h3 class="text-lg font-bold mb-4">Medicamentos</h3>
                     <div id="medication-container">
@@ -170,7 +216,7 @@
                             <select name="medicamentos[]" class="w-full p-2 border rounded text-black">
                                 <option value="" class="text-black">Seleccione un medicamento</option>
                                 @foreach($medicamentos as $medicamento)
-                                    <option value="{{ $medicamento->id }}" class="text-black">{{ $medicamento->Medicamento }}</option>
+                                    <option value="{{ $medicamento->id }}" class="text-black">{{ $medicamento->nombre }}</option>
                                 @endforeach
                             </select>
                             <input type="text" name="cantidades[]" class="w-full p-2 border rounded" placeholder="Cantidad" oninput="validatePositive(this)">
@@ -180,9 +226,20 @@
                     </div>
                     <button type="button" onclick="addMedicationRow()" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded">Agregar Otro Medicamento</button>
                 </div>
+
+                <!-- Mostrar medicamentos seleccionados -->
+                <div class="mt-8">
+                    <h3 class="text-lg font-bold mb-4">Medicamentos Seleccionados</h3>
+                    <ul id="selected-medications" class="list-disc list-inside">
+                        <!-- Aquí se agregarán los medicamentos seleccionados con JavaScript -->
+                    </ul>
+                </div>
+
                 <div class="mt-8 text-right">
                     <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded">Terminar</button>
                 </div>
+            </form>
+
             </form>
         </div>
     </body>

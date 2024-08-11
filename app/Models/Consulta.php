@@ -2,29 +2,25 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Consulta extends Model
 {
-    use HasFactory;
-
     protected $fillable = [
-        'cita_id',
-        'receta',
+        'talla',
+        'temperatura',
+        'peso',
+        'tension_arterial',
+        'saturacion_oxigeno',
+        'frecuencia_cardiaca',
+        'motivo',
         'alergias',
-        'medicamento',
-        'cantidad',
-        'frecuencia',
+        'diagnostico',
+        'receta',
     ];
 
-    public function cita()
+    public function medicamentos()
     {
-        return $this->belongsTo(Cita::class);
-    }
-
-    public function medicamento()
-    {
-        return $this->belongsTo(Medicamento::class);
+        return $this->belongsToMany(Medicamento::class)->withPivot('cantidad', 'frecuencia');
     }
 }

@@ -52,6 +52,8 @@
                                             <br>
                                             CITA #{{ $cita->id }}
                                         </td>
+
+                                        
                                     </tr>
                                 @endif
                             @endforeach

@@ -86,38 +86,16 @@ class CitaController extends Controller
     {
         $cita = Cita::findOrFail($id);
         $medicamentos = Medicamento::all();
-
+    
+        // Cargar la consulta relacionada, si existe
+        $consulta = Consulta::where('cita_id', $id)->with('medicamentos')->first();
+    
         if ($request->isMethod('post')) {
             $cita->update($request->all());
             return redirect()->route('cita.consulta', ['id' => $id])->with('success', 'Signos vitales actualizados');
         }
-
-        return view('cita.consulta', compact('cita', 'medicamentos'));
+    
+        return view('cita.consulta', compact('cita', 'medicamentos', 'consulta'));
     }
-
-    public function storeConsulta(Request $request, $citaId)
-    {
-        $request->validate([
-            'receta' => 'required',
-            'medicamentos' => 'nullable|array',
-            'cantidades' => 'nullable|array',
-            'frecuencias' => 'nullable|array',
-        ]);
-
-        $consulta = Consulta::create([
-            'cita_id' => $citaId,
-            'receta' => $request->receta,
-        ]);
-
-        if ($request->medicamentos && $request->cantidades && $request->frecuencias) {
-            foreach ($request->medicamentos as $index => $medicamentoId) {
-                $consulta->medicamentos()->attach($medicamentoId, [
-                    'cantidad' => $request->cantidades[$index],
-                    'frecuencia' => $request->frecuencias[$index],
-                ]);
-            }
-        }
-
-        return redirect()->route('cita.consulta', $citaId)->with('success', 'Consulta guardada exitosamente.');
-    }
+    
 }
