@@ -41,7 +41,7 @@
                     <select name="medicamentos[]" class="w-full p-2 border rounded text-black">
                         <option value="" class="text-black">Seleccione un medicamento</option>
                         @foreach($medicamentos as $medicamento)
-                            <option value="{{ $medicamento->id }}" class="text-black">{{ $medicamento->Medicamento }}</option>
+                            <option value="{{ $medicamento->id }}" class="text-black">{{ $medicamento->nombre }}</option>
                         @endforeach
                     </select>
                     <input type="text" name="cantidades[]" class="w-full p-2 border rounded" placeholder="Cantidad" oninput="validatePositive(this)">
@@ -170,7 +170,7 @@
                             <select name="medicamentos[]" class="w-full p-2 border rounded text-black">
                                 <option value="" class="text-black">Seleccione un medicamento</option>
                                 @foreach($medicamentos as $medicamento)
-                                    <option value="{{ $medicamento->id }}" class="text-black">{{ $medicamento->Medicamento }}</option>
+                                    <option value="{{ $medicamento->id }}" class="text-black">{{ $medicamento->nombre }}</option>
                                 @endforeach
                             </select>
                             <input type="text" name="cantidades[]" class="w-full p-2 border rounded" placeholder="Cantidad" oninput="validatePositive(this)">
