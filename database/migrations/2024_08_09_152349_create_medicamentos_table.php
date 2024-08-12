@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if(!Schema::hasTable('medicamentos')){
-            Schema::create('medicamentos', function (Blueprint $table) {
+        if(!Schema::hasTable('medicamento')){
+            Schema::create('medicamento', function (Blueprint $table) {
                 $table->id();
                 $table->string('nombre');
                 $table->string('descripcion');
@@ -29,7 +29,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::disableForeignKeyConstraints();
-        Schema::dropIfExists('medicamentos');
+        Schema::dropIfExists('medicamento');
         Schema::enableForeignKeyConstraints();
     }
 };

@@ -22,11 +22,13 @@ class Paciente extends Model
         'genero_biologico'
     ];
 
-    // Relación con las citas
+
+    // Paciente.php
     public function citas()
     {
-        return $this->hasMany(Cita::class);
+        return $this->hasMany(Cita::class, 'paciente_id');
     }
+
 
     
 }

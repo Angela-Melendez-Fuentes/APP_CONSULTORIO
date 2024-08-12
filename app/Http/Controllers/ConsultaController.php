@@ -4,6 +4,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Consulta;
 use App\Models\Medicamento;
+use App\Models\Cita;
+use Barryvdh\DomPDF\Facade as PDF;
+use Dompdf\Dompdf;
+use Dompdf\Options;
+
 
 class ConsultaController extends Controller
 { public function store(Request $request, $citaId)
@@ -55,7 +60,21 @@ class ConsultaController extends Controller
         // Finalmente, redirigir a la vista de consulta
         return redirect()->route('consulta.show', $consulta->id)->with('success', 'Consulta guardada exitosamente.');
     }
-    
+
+
+    public function updateStatus(Request $request, $id)
+    {
+        $cita = Cita::findOrFail($id);
+        $cita->estado = 'Terminada';
+        $cita->save();
+        return redirect()->route('cita.index')->with('status', 'Cita terminada correctamente.');
+    }
+
+    public function show($id)
+    {
+        $cita = Cita::findOrFail($id);
+        return view('cita.consulta', compact('cita'));
+    }
     
 }
 

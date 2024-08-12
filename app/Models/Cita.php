@@ -29,6 +29,7 @@ class Cita extends Model
         'receta',
         'alergias',
         'diagnostico',
+        'estado',
     ];
     
     // Relación con el paciente
@@ -36,4 +37,16 @@ class Cita extends Model
     {
         return $this->belongsTo(Paciente::class, 'paciente_id');
     }
+    public function medicaciones()
+    {
+        return $this->hasMany(Medicacion::class);
+    }
+
+
+    public function doctor()
+    {
+        return $this->belongsTo(User::class, 'doctor_id');
+    }
+
+
 }

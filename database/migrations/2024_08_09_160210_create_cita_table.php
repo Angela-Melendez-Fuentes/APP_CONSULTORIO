@@ -21,16 +21,17 @@ return new class extends Migration
             $table->string('motivo');
             $table->string('observaciones');
             $table->decimal('monto');
-            $table->string('pagada');
-            $table->string('talla');
-            $table->decimal('temperatura');
-            $table->decimal('saturacion_oxigeno');
-            $table->string('frecuencia_cardiaca');
-            $table->decimal('peso');
-            $table->string('tension_arterial');
-            $table->string('receta');
-            $table->string('diagnostico');
-            $table->string('alergias');
+            $table->string('pagada')->nullable();
+            $table->string('talla')->nullable();
+            $table->decimal('temperatura')->nullable();
+            $table->decimal('saturacion_oxigeno')->nullable();
+            $table->string('frecuencia_cardiaca')->nullable();
+            $table->decimal('peso')->nullable();
+            $table->string('tension_arterial')->nullable();
+            $table->string('receta')->nullable();
+            $table->string('diagnostico')->nullable();
+            $table->string('alergias')->nullable();
+
             $table->timestamps();
         });
 	}

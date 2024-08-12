@@ -61,6 +61,11 @@
                         <label for="motivo" class="block text-gray-700 text-sm font-bold mb-2">Motivo:</label>
                         <textarea name="motivo" id="motivo" class="form-textarea mt-1 w-full bg-gray-100 text-gray-700 rounded-md"></textarea>
                     </div>
+
+                    <div class="mb-6">
+                        <label for="observaciones" class="block text-gray-700 text-sm font-bold mb-2">Observaciones:</label>
+                        <textarea name="observaciones" id="observaciones" class="form-textarea mt-1 w-full bg-gray-100 text-gray-700 rounded-md"></textarea>
+                    </div>
     
                     <div class="mb-4">
                         <label for="monto" class="block text-gray-700 text-sm font-bold mb-2">Monto de la cita:</label>

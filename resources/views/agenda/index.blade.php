@@ -53,11 +53,17 @@
                                         </button>
                                     </td>
                                     <td class="px-4 py-2 text-center dark:text-white whitespace-nowrap">
-                                        Sin terminar<br>
-                                        <a href="{{ route('cita.consulta', $cita->id) }}" class="text-blue-600 hover:text-blue-400">Ir a cita</a>
+                                        @if ($cita->estado === 'Terminada')
+                                            <span class="text-green-600">Terminada</span>
+                                        @else
+                                            Sin terminar
+                                            <br>
+                                            <a href="{{ route('cita.consulta', $cita->id) }}" class="text-blue-600 hover:text-blue-400">Ir a cita</a>
+                                        @endif
                                         <br>
                                         CITA #{{ $cita->id }}
                                     </td>
+
                                 </tr>
                             @endif
                             @endforeach

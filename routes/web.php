@@ -11,6 +11,23 @@ use App\Http\Controllers\RegisteredUserController;
 use App\Http\Controllers\MedicamentoController;
 use App\Http\Controllers\ConsultaController;
 
+Route::get('/cita/{id}/descargar-pdf', [CitaController::class, 'crear_pdf'])->name('cita.descargarPDF');
+
+Route::patch('citas/{cita}', [CitaController::class, 'update'])->name('cita.update');
+
+
+
+Route::get('cita/editar/{id}', [CitaController::class, 'edit'])->name('cita.edit');
+
+
+Route::patch('/cita/consulta/{id}', [ConsultaController::class, 'updateStatus'])->name('cita.updateStatus');
+
+Route::patch('/citas/{cita}/terminar', [CitaController::class, 'terminar'])->name('cita.terminar');
+
+
+
+Route::patch('/cita/consulta/{id}', [ConsultaController::class, 'updateStatus'])->name('cita.updateStatus');
+
 
 Route::post('/consulta/{citaId}', [ConsultaController::class, 'store'])->name('consulta.store');
 Route::get('/consulta/{id}', [ConsultaController::class, 'show'])->name('consulta.show');

@@ -12,30 +12,82 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.2/dist/tailwind.min.css" rel="stylesheet">
         <title>Consulta</title>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script>
-            function calculateAge(fechaNacimiento) {
-                const today = new Date();
-                const birthDate = new Date(fechaNacimiento);
-                let age = today.getFullYear() - birthDate.getFullYear();
-                const m = today.getMonth() - birthDate.getMonth();
-                if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-                    age--;
-                }
-                return age;
-            }
-
             document.addEventListener('DOMContentLoaded', function () {
-                const birthDateElement = document.getElementById('fecha_nacimiento');
-                const ageElement = document.getElementById('edad');
-                if (birthDateElement && ageElement) {
-                    const age = calculateAge(birthDateElement.textContent);
-                    ageElement.textContent = age;
-                }
+
+                    const citaId = '{{ $cita->id }}'; 
+
 
                 // Attach event listeners to existing rows
                 updateEventListeners();
+
+                // Attach event listener to "Terminar" button
+                const terminarButton = document.getElementById('terminarButton');
+                if (terminarButton) {
+                    terminarButton.addEventListener('click', function (event) {
+                        event.preventDefault(); // Prevents the default action of the button
+                        Swal.fire({
+                            title: '¿Estás seguro?',
+                            text: "¡La cita será marcada como terminada!",
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'Sí, terminar',
+                            cancelButtonText: 'Cancelar'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                // Create a form and submit it programmatically
+                                const form = document.createElement('form');
+                                form.method = 'POST';
+                                form.action = '{{ route('cita.updateStatus', $cita->id) }}';
+
+                                const csrfInput = document.createElement('input');
+                                csrfInput.type = 'hidden';
+                                csrfInput.name = '_token';
+                                csrfInput.value = '{{ csrf_token() }}';
+                                form.appendChild(csrfInput);
+
+                                const methodInput = document.createElement('input');
+                                methodInput.type = 'hidden';
+                                methodInput.name = '_method';
+                                methodInput.value = 'PATCH';
+                                form.appendChild(methodInput);
+
+                                document.body.appendChild(form);
+                                form.submit();
+
+                                Swal.fire(
+                                    'Terminada!',
+                                    'La cita ha sido marcada como terminada exitosamente.',
+                                    'success'
+                                ).then(() => {
+                                    window.location.href = `{{ route('cita.consulta', ':id') }}`.replace(':id', citaId); // Redirect to the same cita
+                                });
+                            }
+                        });
+                    });
+                }
+                // Attach event listener to "Actualizar" button
+                const updateButton = document.getElementById('updateButton');
+                if (updateButton) {
+                    updateButton.addEventListener('click', function (event) {
+                        Swal.fire({
+                            title: 'Actualizada!',
+                            text: "La cita ha sido actualizada correctamente.",
+                            icon: 'success',
+                            confirmButtonColor: '#3085d6',
+                            confirmButtonText: 'Ok'
+                        }).then(() => {
+                            window.location.href = `{{ route('cita.consulta', ':id') }}`.replace(':id', citaId); // Redirect to the same cita
+                        });
+                    });
+                }
             });
 
+
+           
             function addMedicationRow() {
                 const container = document.getElementById('medication-container');
                 const row = document.createElement('div');
@@ -111,6 +163,25 @@
                     input.addEventListener('input', updateSelectedMedications);
                 });
             }
+
+            function transferMedicationsToReceta() {
+                const container = document.getElementById('medication-container');
+                const recetaField = document.querySelector('textarea[name="receta"]');
+                let recetaText = recetaField.value.trim(); // Mantiene el texto existente
+
+                const rows = container.getElementsByClassName('grid');
+                Array.from(rows).forEach(row => {
+                    const medication = row.querySelector('select').selectedOptions[0].text;
+                    const quantity = row.querySelector('input[name="cantidades[]"]').value;
+                    const frequency = row.querySelector('input[name="frecuencias[]"]').value;
+
+                    if (medication && quantity && frequency) {
+                        recetaText += `\n${medication} - Cantidad: ${quantity}, Frecuencia: ${frequency}`;
+                    }
+                });
+
+                recetaField.value = recetaText.trim(); // Inserta el texto formateado en el campo "Receta"
+            }
         </script>
     </head>
     <style>
@@ -140,12 +211,13 @@
                 <p>Contacto: {{ $cita->paciente->telefono }}</p>
                 <p id="fecha_nacimiento">Fecha de Nacimiento: {{ $cita->paciente->fecha_nacimiento }}</p>
                 <p>Género: {{ $cita->paciente->genero_biologico }}</p>
-                <p>Edad: <span id="edad"></span></p>
+                <p>Edad: {{ $cita->paciente->age }}</p> 
             </div>
 
-            <form action="{{ route('cita.consulta', $cita->id) }}" method="POST">
-                @csrf
-                @method('POST')
+            <!-- Formulario para actualizar la cita -->
+            <form action="{{ route('cita.update', $cita->id) }}" method="POST">
+                 @csrf
+                @method('PATCH')
                 <div class="mt-8">
                     <h3 class="text-lg font-bold mb-4">Signos Vitales</h3>
                     
@@ -188,59 +260,68 @@
                     <h3 class="text-lg font-bold mb-4">Motivo de la Consulta</h3>
                     <textarea class="w-full p-2 border rounded" name="motivo" rows="4">{{ $cita->motivo }}</textarea>
                 </div>
-                
+
+                <div class="mt-8">
+                    <h3 class="text-lg font-bold mb-4">Observaciones</h3>
+                    <textarea class="w-full p-2 border rounded" name="observaciones" rows="4">{{ $cita->observaciones }}</textarea>
+                </div>
+
+                <!-- Diagnóstico -->
+                <div class="mt-8">
+                    <h3 class="text-lg font-bold mb-4">Diagnóstico</h3>
+                    <textarea id="diagnostico" name="diagnostico" class="w-full p-2 border rounded" rows="3">{{ $cita->diagnostico }}</textarea>
+                </div>
+
+                <!-- Alergias -->
                 <div class="mt-8">
                     <h3 class="text-lg font-bold mb-4">Alergias</h3>
-                    <textarea class="w-full p-2 border rounded" name="alergias" rows="4" placeholder="Escribir aquí...">{{ $cita->alergias}}</textarea>
-                </div>
-
-                <div class="mt-8">
-                    <h3 class="text-lg font-bold mb-4">Diagnostico</h3>
-                    <textarea class="w-full p-2 border rounded" name="diagnostico" rows="4">{{ $cita->diagnostico }}</textarea>
-                </div>
-                
-                <div class="mt-8">
-                    <h3 class="text-lg font-bold mb-4">Receta</h3>
-                    <textarea class="w-full p-2 border rounded" name="receta" rows="4">{{ $cita->receta }}</textarea>
+                    <textarea id="alergias" name="alergias" class="w-full p-2 border rounded" rows="2">{{ $cita->alergias }}</textarea>
                 </div>
 
 
-            <form action="{{ route('consulta.store', $cita->id) }}" method="POST">
-                @csrf
-                @method('POST')
-                <!-- Sección para agregar medicamentos -->
-                <div class="mt-8">
-                    <h3 class="text-lg font-bold mb-4">Medicamentos</h3>
-                    <div id="medication-container">
-                        <div class="grid grid-cols-4 gap-4">
-                            <select name="medicamentos[]" class="w-full p-2 border rounded text-black">
-                                <option value="" class="text-black">Seleccione un medicamento</option>
-                                @foreach($medicamentos as $medicamento)
-                                    <option value="{{ $medicamento->id }}" class="text-black">{{ $medicamento->nombre }}</option>
-                                @endforeach
-                            </select>
-                            <input type="text" name="cantidades[]" class="w-full p-2 border rounded" placeholder="Cantidad" oninput="validatePositive(this)">
-                            <input type="text" name="frecuencias[]" class="w-full p-2 border rounded" placeholder="Frecuencia">
-                            <button type="button" class="bg-purple-400 text-white px-4 py-2 rounded" onclick="removeMedicationRow(this)">Eliminar</button>
-                        </div>
+                <div id="medication-container" class="mb-4">
+                    <!-- Medication rows will be dynamically added here -->
+                </div>
+                <button type="button" onclick="addMedicationRow()" class="bg-blue-500 text-white px-4 py-2 rounded">Agregar Medicamento</button>
+                <button type="button" onclick="transferMedicationsToReceta()" class="bg-blue-500 text-white px-4 py-2 rounded">Transferir a Receta</button>
+
+                <div class="mb-4 mt-4">
+                    <label for="receta" class="block text-gray-700 text-sm font-bold mb-2">Receta</label>
+                    <textarea name="receta" id="receta" rows="4" class="w-full border rounded p-2">{{ $cita->receta }}</textarea>
+                </div>
+
+                <div class="mt-8 text-center">
+                    @if ($cita->estado !== 'Terminada')
+                        <button type="submit" class="bg-blue-200 text-black px-4 py-2 rounded" id="updateButton">Actualizar</button>
+                        <br>
+                        <br>
+                    @endif
+                </div>
+            </form>
+
+
+
+
+            <div class="text-right">
+                @if ($cita->estado === 'Terminada')
+                    <div class="mt-8 text-center">
+                        <a href="{{ route('cita.index') }}" class="bg-gray-500 text-white px-4 py-2 rounded">Volver al Historial</a>
+                        <br>
+                        <br>
                     </div>
-                    <button type="button" onclick="addMedicationRow()" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded">Agregar Otro Medicamento</button>
-                </div>
+                @else
+                    <button type="button" id="terminarButton" class="bg-green-500 text-white px-4 py-2 rounded">Terminar</button>
+                @endif
 
-                <!-- Mostrar medicamentos seleccionados -->
-                <div class="mt-8">
-                    <h3 class="text-lg font-bold mb-4">Medicamentos Seleccionados</h3>
-                    <ul id="selected-medications" class="list-disc list-inside">
-                        <!-- Aquí se agregarán los medicamentos seleccionados con JavaScript -->
-                    </ul>
-                </div>
-
-                <div class="mt-8 text-right">
-                    <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded">Terminar</button>
-                </div>
-            </form>
-
-            </form>
+            </div>
+            <div class="text-right">
+                @if ($cita->estado === 'Terminada')
+                    <div class="mt-8 text-right">
+                        <a href="{{ route('cita.descargarPDF', $cita->id) }}" class="bg-yellow-500 text-white px-4 py-2 rounded">Descargar Expediente</a>
+                    </div>
+                @endif    
+            </div>
+            
         </div>
     </body>
     </html>
