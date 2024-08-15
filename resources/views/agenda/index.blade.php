@@ -32,12 +32,12 @@
                         <tbody>
                             @if ($citas->isEmpty())
                                 <tr>
-                                    <td colspan="7" class="text-center py-4 dark:text-white">No hay citas registradas.</td>
+                                    <td colspan="7" class="text-center py-4 dark:text-black">No hay citas registradas.</td>
                                 </tr>
                             @else
                             @foreach ($citas->sortBy('hora') as $cita)
                             @if ($cita->doctor_id === auth()->id())
-                                <tr class="appointment-row bg-blue-100 border-b border-blue-200 dark:text-white whitespace-nowrap" data-date="{{ $cita->fecha }}">
+                                <tr class="appointment-row bg-blue-100 border-b border-blue-200" data-date="{{ $cita->fecha }}">
                                     <td class="px-4 py-2">{{ $cita->hora }}</td>
                                     <td class="px-4 py-2">{{ $cita->fecha }}</td>
                                     <td class="px-4 py-2 whitespace-normal">{{ $cita->paciente->nombre }} {{ $cita->paciente->apellido_p }} {{ $cita->paciente->apellido_m }}</td>
@@ -52,7 +52,7 @@
                                             ▢
                                         </button>
                                     </td>
-                                    <td class="px-4 py-2 text-center dark:text-white whitespace-nowrap">
+                                    <td class="px-4 py-2 text-center">
                                         @if ($cita->estado === 'Terminada')
                                             <span class="text-green-600">Terminada</span>
                                         @else
@@ -171,7 +171,7 @@
                 header.classList.add('calendar-header');
 
                 const prevButton = document.createElement('button');
-                prevButton.innerHTML = '&lt;'; // Símbolo de menor 
+                prevButton.innerHTML = '&lt;'; // Símbolo de menor bonis
                 prevButton.classList.add('calendar-button');
                 prevButton.addEventListener('click', function() {
                     currentMonth--;
@@ -183,7 +183,7 @@
                 });
 
                 const nextButton = document.createElement('button');
-                nextButton.innerHTML = '&gt;'; // Símbolo de mayor
+                nextButton.innerHTML = '&gt;'; // Símbolo de mayor bonis
                 nextButton.classList.add('calendar-button');
                 nextButton.addEventListener('click', function() {
                     currentMonth++;

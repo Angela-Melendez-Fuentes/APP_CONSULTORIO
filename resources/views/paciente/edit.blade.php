@@ -5,6 +5,7 @@
         </div>
     </header>
 
+    
     <div class="py-12 bg-blue-200">
         <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
             <div class="relative overflow-hidden shadow-lg rounded-lg bg-white p-6">

@@ -16,17 +16,15 @@
         <script>
             document.addEventListener('DOMContentLoaded', function () {
 
-                    const citaId = '{{ $cita->id }}'; 
-
-
-                // Attach event listeners to existing rows
+                 const citaId = '{{ $cita->id }}'; 
+                
                 updateEventListeners();
 
-                // Attach event listener to "Terminar" button
+                //"Terminar" button
                 const terminarButton = document.getElementById('terminarButton');
                 if (terminarButton) {
                     terminarButton.addEventListener('click', function (event) {
-                        event.preventDefault(); // Prevents the default action of the button
+                        event.preventDefault(); 
                         Swal.fire({
                             title: '¿Estás seguro?',
                             text: "¡La cita será marcada como terminada!",
@@ -38,7 +36,6 @@
                             cancelButtonText: 'Cancelar'
                         }).then((result) => {
                             if (result.isConfirmed) {
-                                // Create a form and submit it programmatically
                                 const form = document.createElement('form');
                                 form.method = 'POST';
                                 form.action = '{{ route('cita.updateStatus', $cita->id) }}';
@@ -63,13 +60,16 @@
                                     'La cita ha sido marcada como terminada exitosamente.',
                                     'success'
                                 ).then(() => {
-                                    window.location.href = `{{ route('cita.consulta', ':id') }}`.replace(':id', citaId); // Redirect to the same cita
+                                    window.location.href = `{{ route('cita.consulta', ':id') }}`.replace(':id', citaId); //Regresarme a la misma cita!! ???
                                 });
                             }
                         });
                     });
                 }
-                // Attach event listener to "Actualizar" button
+
+
+                
+                //  "Actualizar" button
                 const updateButton = document.getElementById('updateButton');
                 if (updateButton) {
                     updateButton.addEventListener('click', function (event) {
@@ -80,12 +80,11 @@
                             confirmButtonColor: '#3085d6',
                             confirmButtonText: 'Ok'
                         }).then(() => {
-                            window.location.href = `{{ route('cita.consulta', ':id') }}`.replace(':id', citaId); // Redirect to the same cita
+                            window.location.href = `{{ route('cita.consulta', ':id') }}`.replace(':id', citaId); //Regresarme a la misma cita!!
                         });
                     });
                 }
             });
-
 
            
             function addMedicationRow() {
@@ -99,13 +98,12 @@
                             <option value="{{ $medicamento->id }}" class="text-black">{{ $medicamento->nombre }}</option>
                         @endforeach
                     </select>
-                    <input type="text" name="cantidades[]" class="w-full p-2 border rounded" placeholder="Cantidad" oninput="validatePositive(this)">
-                    <input type="text" name="frecuencias[]" class="w-full p-2 border rounded" placeholder="Frecuencia">
+                    <input type="text" name="cantidades[]" class="w-full p-2 border rounded" placeholder="Ingerir" oninput="validatePositive(this)">
+                    <input type="text" name="frecuencias[]" class="w-full p-2 border rounded" placeholder="Toma cada">
                     <button type="button" class="bg-purple-400 text-white px-4 py-2 rounded" onclick="removeMedicationRow(this)">Eliminar</button>
                 `;
                 container.appendChild(row);
 
-                // Attach event listeners to the new row
                 updateEventListeners();
             }
 
@@ -141,28 +139,38 @@
 
                     if (medication && quantity && frequency) {
                         const listItem = document.createElement('li');
-                        listItem.textContent = `${medication} - Cantidad: ${quantity}, Frecuencia: ${frequency}`;
+                        listItem.textContent = `${medication} - Ingerir: ${quantity}, Toma cada: ${frequency}`;
                         selectedList.appendChild(listItem);
                     }
                 });
             }
 
             function updateEventListeners() {
-                document.querySelectorAll('select[name="medicamentos[]"]').forEach(select => {
-                    select.removeEventListener('change', updateSelectedMedications); // Remove previous listeners
-                    select.addEventListener('change', updateSelectedMedications);
+            document.querySelectorAll('select[name="medicamentos[]"]').forEach(select => {
+                select.removeEventListener('change', updateSelectedMedications); 
+                select.addEventListener('change', () => {
+                    updateSelectedMedications();
+                    transferMedicationsToReceta(); 
                 });
+            });
 
-                document.querySelectorAll('input[name="cantidades[]"]').forEach(input => {
-                    input.removeEventListener('input', updateSelectedMedications); // Remove previous listeners
-                    input.addEventListener('input', updateSelectedMedications);
+            document.querySelectorAll('input[name="cantidades[]"]').forEach(input => {
+                input.removeEventListener('input', updateSelectedMedications); 
+                input.addEventListener('input', () => {
+                    updateSelectedMedications();
+                    transferMedicationsToReceta();
                 });
+            });
 
-                document.querySelectorAll('input[name="frecuencias[]"]').forEach(input => {
-                    input.removeEventListener('input', updateSelectedMedications); // Remove previous listeners
-                    input.addEventListener('input', updateSelectedMedications);
+            document.querySelectorAll('input[name="frecuencias[]"]').forEach(input => {
+                input.removeEventListener('input', updateSelectedMedications); 
+                input.addEventListener('input', () => {
+                    updateSelectedMedications();
+                    transferMedicationsToReceta(); 
                 });
-            }
+            });
+        }
+
 
             function transferMedicationsToReceta() {
                 const container = document.getElementById('medication-container');
@@ -176,7 +184,7 @@
                     const frequency = row.querySelector('input[name="frecuencias[]"]').value;
 
                     if (medication && quantity && frequency) {
-                        recetaText += `\n${medication} - Cantidad: ${quantity}, Frecuencia: ${frequency}`;
+                        recetaText += `\n${medication} - Ingerir: ${quantity}, Toma cada: ${frequency}`;
                     }
                 });
 
@@ -279,16 +287,34 @@
                 </div>
 
 
+
+
+
                 <div id="medication-container" class="mb-4">
-                    <!-- Medication rows will be dynamically added here -->
+                    <!-- Los medicamentos se agregan aqui -->
                 </div>
                 <button type="button" onclick="addMedicationRow()" class="bg-blue-500 text-white px-4 py-2 rounded">Agregar Medicamento</button>
-                <button type="button" onclick="transferMedicationsToReceta()" class="bg-blue-500 text-white px-4 py-2 rounded">Transferir a Receta</button>
+                
+                
+                <button type="button" onclick="transferMedicationsToReceta()" class="bg-blue-500 text-white px-4 py-2 rounded">Agregar a la receta</button>
+
 
                 <div class="mb-4 mt-4">
                     <label for="receta" class="block text-gray-700 text-sm font-bold mb-2">Receta</label>
                     <textarea name="receta" id="receta" rows="4" class="w-full border rounded p-2">{{ $cita->receta }}</textarea>
                 </div>
+
+
+                <div class="mt-8">
+                    <h3 class="text-lg font-bold mb-4">Enfermero Asignado</h3>
+                    <select name="enfermero_id" class="w-full p-2 border rounded">
+                        <option value="" class="text-black">Seleccione un enfermero</option>
+                        @foreach($enfermeros as $enfermero)
+                            <option value="{{ $enfermero->id }}" {{ $cita->enfermero_id == $enfermero->id ? 'selected' : '' }}>{{ $enfermero->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
 
                 <div class="mt-8 text-center">
                     @if ($cita->estado !== 'Terminada')
@@ -297,6 +323,8 @@
                         <br>
                     @endif
                 </div>
+
+                
             </form>
 
 

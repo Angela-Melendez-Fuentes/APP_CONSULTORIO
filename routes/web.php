@@ -11,48 +11,36 @@ use App\Http\Controllers\RegisteredUserController;
 use App\Http\Controllers\MedicamentoController;
 use App\Http\Controllers\ConsultaController;
 
+
+
+
+
 Route::get('/cita/{id}/descargar-pdf', [CitaController::class, 'crear_pdf'])->name('cita.descargarPDF');
-
 Route::patch('citas/{cita}', [CitaController::class, 'update'])->name('cita.update');
-
-
-
 Route::get('cita/editar/{id}', [CitaController::class, 'edit'])->name('cita.edit');
-
-
 Route::patch('/cita/consulta/{id}', [ConsultaController::class, 'updateStatus'])->name('cita.updateStatus');
-
 Route::patch('/citas/{cita}/terminar', [CitaController::class, 'terminar'])->name('cita.terminar');
+Route::post('/cita/{id}/consulta', [ConsultaController::class, 'store'])->name('cita.consulta');
+Route::post('/cita/{id}/consulta', [CitaController::class, 'guardarConsulta'])->name('cita.consulta');
+Route::get('/cita/consulta', [MedicamentoController::class, 'mostrarFormulario'])->name('cita.consulta');
+Route::match(['get', 'post'], 'cita/consulta/{id}', [CitaController::class, 'consulta'])->name('cita.consulta');
 
 
-
-Route::patch('/cita/consulta/{id}', [ConsultaController::class, 'updateStatus'])->name('cita.updateStatus');
 
 
 Route::post('/consulta/{citaId}', [ConsultaController::class, 'store'])->name('consulta.store');
 Route::get('/consulta/{id}', [ConsultaController::class, 'show'])->name('consulta.show');
-
-
-Route::resource('medicamentos', MedicamentoController::class);
-
 Route::get('/consulta/{id}', [ConsultaController::class, 'show'])->name('consulta.show');
 
 
 
-Route::post('/cita/{id}/consulta', [ConsultaController::class, 'store'])->name('cita.consulta');
-
-Route::post('/cita/{id}/consulta', [CitaController::class, 'guardarConsulta'])->name('cita.consulta');
-
-
-
+Route::resource('medicamentos', MedicamentoController::class);
 Route::get('/medicamentos', [MedicamentoController::class, 'index'])->name('medicamentos.index');
-Route::get('/cita/consulta', [MedicamentoController::class, 'mostrarFormulario'])->name('cita.consulta');
 Route::get('/mostrar-formulario', [MedicamentoController::class, 'mostrarFormulario'])->name('mostrar.formulario');
 Route::post('/medicamentos', [MedicamentoController::class, 'store'])->name('medicamentos.store');
 
 
 
-Route::match(['get', 'post'], 'cita/consulta/{id}', [CitaController::class, 'consulta'])->name('cita.consulta');
 
 
 

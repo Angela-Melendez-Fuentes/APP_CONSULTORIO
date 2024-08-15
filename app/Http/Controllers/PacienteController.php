@@ -28,7 +28,7 @@ class PacienteController extends Controller
 
     // Muestra el formulario para editar a los pacientes solo si está logueado como secretaria o admin
     public function edit($id) {
-        if (auth()->user()->tipo === 'secretaria' || auth()->user()->tipo === 'admin') {
+        if (in_array(auth()->user()->tipo, ['doctor', 'secretaria', 'admin'])) {
             $paciente = Paciente::findOrFail($id);
             return view('paciente.edit', compact('paciente'));        
         }

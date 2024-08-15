@@ -1,6 +1,5 @@
 <?php
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Auth; 
@@ -30,12 +29,13 @@ class CitaController extends Controller
             'date' => $date
         ]);
     }
-    
+
     public function store(Request $request)
     {
         $request->validate([
             'paciente_id' => 'required|exists:pacientes,id',
             'doctor_id' => 'required|exists:users,id',
+            'enfermero_id' => 'nullable|exists:users,id',  
             'fecha' => 'required|date',
             'hora' => 'required',
             'motivo' => 'required|string',
@@ -60,6 +60,7 @@ class CitaController extends Controller
         $cita = Cita::create([
             'paciente_id' => $request->paciente_id,
             'doctor_id' => $request->doctor_id,
+            'enfermero_id' => $request->enfermero_id,  
             'fecha' => $request->fecha,
             'hora' => $request->hora,
             'motivo' => $request->motivo,
@@ -117,21 +118,26 @@ class CitaController extends Controller
         return response()->json($citas);
     }
 
+    
     public function consulta(Request $request, $id)
     {
         $cita = Cita::findOrFail($id);
         $medicamentos = Medicamento::all();
-    
+        $enfermeros = User::where('tipo', 'enfermero')->get(); // Obtener todos los enfermeros
+        
         // Cargar la consulta relacionada, si existe
         $consulta = Consulta::where('cita_id', $id)->with('medicamentos')->first();
-    
+        
         if ($request->isMethod('post')) {
             $cita->update($request->all());
             return redirect()->route('cita.consulta', ['id' => $id])->with('success', 'Signos vitales actualizados');
         }
-    
-        return view('cita.consulta', compact('cita', 'medicamentos', 'consulta'));
+        
+        return view('cita.consulta', compact('cita', 'medicamentos', 'consulta', 'enfermeros')); // Pasar los enfermeros a la vista
     }
+    
+    
+
 
 
 
@@ -145,7 +151,7 @@ class CitaController extends Controller
         $cita->save();
         
         // Redirige o devuelve una respuesta adecuada
-        return redirect()->route('cita.index')->with('status', 'Cita terminada correctamente.');
+    return redirect()->route('cita.consulta', ['id' => $id])->with('status', 'Cita terminada correctamente.');
     }
 
     public function update(Request $request, $id)
@@ -169,7 +175,7 @@ class CitaController extends Controller
         // Actualizar la cita
         $cita->update($request->all());
     
-        return redirect()->route('cita.index')->with('success', 'Cita actualizada exitosamente');
+        return redirect()->route('cita.consulta', ['id' => $id])->with('success', 'Cita actualizada exitosamente');
     }
     
 

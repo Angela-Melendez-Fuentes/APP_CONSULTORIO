@@ -14,6 +14,7 @@ class Cita extends Model
     protected $fillable = [
         'paciente_id', 
         'doctor_id',
+        'enfermero_id',  
         'fecha',
         'hora',
         'motivo',

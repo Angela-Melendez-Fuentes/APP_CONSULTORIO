@@ -78,7 +78,7 @@
         }
 
         function confirmEdit(event, citaId) {
-            event.preventDefault(); // Prevents the default action of the link
+            event.preventDefault(); 
             Swal.fire({
                 title: 'Examinar',
                 text: 'Estás a punto de examinar una cita que ya ha sido terminada.',

@@ -9,7 +9,7 @@
 
     <div class="container mx-auto max-w-screen-xl p-8 bg-white rounded shadow-md mt-20">
         <div class="text-right mb-4">
-            <a href="{{ route('medicamentos.create') }}" class="bg-blue-500 text-white px-4 py-2 rounded">Agregar Medicamento</a>
+            <a href="{{ route('medicamentos.create') }}" class="ml-2 px-4 py-2 bg-blue-200 text-black rounded-md">Agregar Medicamento</a>
         </div>
 
         <!-- Contenedor para centrar la tabla -->
@@ -32,7 +32,7 @@
                             <td class="px-6 py-4 border-b border-gray-200">{{ $medicamento->precio }}</td>
                             <td class="px-6 py-4 border-b border-gray-200">{{ $medicamento->cantidad }}</td>
                             <td class="px-6 py-4 border-b border-gray-200">
-                                <a href="{{ route('medicamentos.edit', $medicamento->id) }}" class="text-blue-600 hover:text-blue-900">Editar</a> |
+                                <a href="{{ route('medicamentos.edit', $medicamento->id) }}" class="text-blue-600 hover:text-blue-900">Editar</a> 
 
                                 <form action="{{ route('medicamentos.destroy', $medicamento->id) }}" method="POST" class="delete-form" style="display: inline-block;">
                                     @csrf

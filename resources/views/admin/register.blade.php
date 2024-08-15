@@ -64,6 +64,8 @@
                         <option value="secretaria">{{ __('Secretaria (o)') }}</option>
                         <option value="doctor">{{ __('Médico') }}</option>
                         <option value="doctor">{{ __('Médico Colaborador') }}</option>
+                        <option value="enfermero">{{ __('Enfermero Asistente') }}</option>
+
                     </select>
                     <x-input-error :messages="$errors->get('tipo')" class="mt-2" />
                 </div>

@@ -13,11 +13,11 @@
                 
                 
                 <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex" class = "text-black dark:text-black">
                     @auth
                         @if (auth()->user()->tipo === 'secretaria')
                             <!-- Secretaria Navigation Links -->
-                            <x-nav-link :href="route('paciente')" :active="request()->routeIs('paciente')">
+                            <x-nav-link :href="route('paciente')" :active="request()->routeIs('paciente')" class="text-black">
                                 {{ __('Registro') }}
                             </x-nav-link>
                             <x-nav-link :href="route('doctor.servicios')" :active="request()->routeIs('doctor.servicios')">
@@ -36,7 +36,7 @@
                             
                         @elseif (auth()->user()->tipo === 'doctor')
                             <!-- Doctor Navigation Links -->
-                            <x-nav-link :href="route('agenda.index')" :active="request()->routeIs('agenda.index')">
+                            <x-nav-link :href="route('agenda.index')" :active="request()->routeIs('agenda.index')" class="text-black">
                                 {{ __('Agenda') }}
                             </x-nav-link>
                             
@@ -130,7 +130,7 @@
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
             <div class="px-4">
-                <div class="font-medium text-base text-black dark:black">{{ Auth::user()->name }}</div>
+                <div class="font-medium text-base text-black dark:text-black">{{ Auth::user()->name }}</div>
                 <div class="font-medium text-sm text-black">{{ Auth::user()->email }}</div>
             </div>
 

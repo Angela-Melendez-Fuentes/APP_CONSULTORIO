@@ -58,8 +58,7 @@
                                     <td class="px-6 py-4">{{ $paciente->age }}</td>
                                     <td class="px-6 py-4 flex space-x-2">
                                         <div class="rounded-md overflow-hidden">
-                                            <button onclick="validarAdmin()"
-                                                class="block text-center text-indigo-600 hover:text-indigo-900 px-3 py-2">Editar</button>
+                                            <a href="{{ route('paciente.edit', $paciente->id) }}" class="block text-center text-indigo-600 hover:text-indigo-900 px-3 py-2">Editar</a>
                                         </div>
                                         <div class="rounded-md overflow-hidden">
                                             <a href="{{ route('paciente.show', $paciente->id) }}"
@@ -90,19 +89,6 @@
                     </table>
                 @endif
             </div>
-            <script>
-                function validarAdmin() {
-                    if ('{{ auth()->user()->tipo }}' != 'admin') {
-                        Swal.fire({
-                            title: "No eres admin",
-                            text: "No puedes editar",
-                            icon: "error"
-                        });
-                    } else {
-                        location.href('{{ route('paciente.edit', $paciente->id) }}');
-                    }
-                }
-            </script>
         </div>
     </div>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">

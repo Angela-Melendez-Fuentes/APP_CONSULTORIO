@@ -1,18 +1,21 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-bold text-2xl text-blue-700 leading-tight">
-            {{ __('Usuarios') }}
-        </h2>
-    </x-slot>
+    <header class="bg-blue dark:bg-blue-200 shadow">
+        <div class="bg-blue-200 max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-center bg-blue-200">
+                <img src="{{ asset('images/AdministrarUser.png') }}" alt="Registro" style="width: 683px; max-width: 100%;">
+            </div>
+        </div>
+    </header>
+    
 
-    <div class="py-12 bg-gray-100">
+    <div class="py-12 bg-blue-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="relative overflow-x-auto shadow-md sm:rounded-lg bg-white p-6">
                 <div class="flex justify-between items-center mb-6">
                     <div class="flex items-center">
                         <form method="GET" action="{{ route('admin.administrar') }}" class="flex">
                             <input type="text" name="search" placeholder="Buscar usuario" class="bg-gray-100 text-sm px-4 py-2.5 rounded-md outline-blue-500" value="{{ request('search') }}">
-                            <button type="submit" class="ml-2 px-4 py-2 bg-blue-600 text-white rounded-md">Buscar</button>
+                            <button type="submit" class="ml-2 px-4 py-2 bg-blue-200 text-black rounded-md">Buscar</button>
                         </form>
                     </div>
                 </div>
@@ -23,7 +26,7 @@
                     </div>
                 @else
                     <table class="w-full text-sm text-center text-gray-600">
-                        <thead class="text-xs text-gray-800 uppercase bg-blue-600">
+                        <thead class="text-xs text-gray-800 uppercase bg-blue-200">
                             <tr>
                                 <th scope="col" class="px-6 py-3 font-bold">Nombre</th>
                                 <th scope="col" class="px-6 py-3 font-bold">Correo</th>
